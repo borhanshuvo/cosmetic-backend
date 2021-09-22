@@ -36,7 +36,7 @@ async function addUser(req, res, next) {
   if (req.files && req.files.length > 0) {
     newUser = new User({
       ...req.body,
-      avatar: `https://api-cosmetic.herokuapp.com/uploads/avatars/${req.files[0].filename}`,
+      avatar: `${process.env.URL}/uploads/avatars/${req.files[0].filename}`,
       password: hashedPassword,
       token: tokenCreate,
     });
