@@ -8,7 +8,7 @@ const avatarUpload = require("../middlewares/users/avatarUpload");
 const router = express.Router();
 
 // get user
-router.get("/", checkLogin, getUsers);
+router.get("/get", checkLogin, getUsers);
 
 // add user
 router.post("/post", avatarUpload, addUser);
