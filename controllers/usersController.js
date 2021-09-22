@@ -9,7 +9,8 @@ const User = require("../models/User");
 async function getUsers(req, res, next) {
   try {
     const users = await User.find({});
-    res.status(200).json(users);
+    const { password, ...rest } = users[0]._doc;
+    res.status(200).json(rest);
   } catch (err) {
     res.status(500).json({
       message: "Unknown error occured!",
@@ -35,7 +36,7 @@ async function addUser(req, res, next) {
   if (req.files && req.files.length > 0) {
     newUser = new User({
       ...req.body,
-      avatar: req.files[0].filename,
+      avatar: `http://localhost:5000/uploads/avatars/${req.files[0].filename}`,
       password: hashedPassword,
       token: tokenCreate,
     });

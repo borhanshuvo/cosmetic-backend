@@ -3,6 +3,7 @@ const express = require("express");
 const dotenv = require("dotenv");
 const mongoose = require("mongoose");
 const path = require("path");
+const cors = require("cors");
 
 const app = express();
 dotenv.config();
@@ -22,6 +23,7 @@ mongoose
 // Request process
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cors());
 
 // Set  static folder
 app.use(express.static(path.join(__dirname, "public")));
