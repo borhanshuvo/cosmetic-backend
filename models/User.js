@@ -12,6 +12,7 @@ const userSchema = mongoose.Schema(
       require: true,
       trim: true,
       lowercase: true,
+      unique: true,
     },
     aboutMe: {
       type: String,
