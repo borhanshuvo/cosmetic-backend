@@ -9,10 +9,14 @@ function avatarUpload(req, res, next) {
   );
 
   // call the middleware function
-  upload.any()(req, res, (err) => {
+  upload.any()(req, res, err => {
     if (err) {
       res.status(500).json({
-        message: "Unknown error occured!",
+        errors: {
+          avatar: {
+            msg: err,
+          },
+        },
       });
     } else {
       next();
