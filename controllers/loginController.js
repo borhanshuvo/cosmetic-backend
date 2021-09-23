@@ -15,9 +15,21 @@ async function login(req, res, next) {
       user.password
     );
 
+    // user object
+    const userObject = {
+      id: user._id,
+      name: user.name,
+      email: user.email,
+    };
+
+    // token generate
+    const accessToken = jwt.sign(userObject, process.env.JWT_SECRET, {
+      expiresIn: "1d",
+    });
+
     if (isValidPassword) {
       const { password, ...rest } = user._doc;
-      res.status(200).json(rest);
+      res.status(200).json({ rest, accessToken });
     } else {
       res.status(500).json({
         message: "Authentication error!",
@@ -25,7 +37,7 @@ async function login(req, res, next) {
     }
   } catch (err) {
     res.status(500).json({
-      message: "Authentication error!",
+      message: "Internal Server Error!",
     });
   }
 }

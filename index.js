@@ -11,6 +11,7 @@ dotenv.config();
 // internal imports
 const usersRoute = require("./routers/usersRouter");
 const loginRoute = require("./routers/loginRouter");
+const productRoute = require("./routers/productRouter");
 
 // Database connection
 mongoose
@@ -36,6 +37,7 @@ app.get("/", (req, res) => {
 
 app.use("/user", usersRoute);
 app.use("/login", loginRoute);
+app.use("/product", productRoute);
 
 app.listen(process.env.PORT, () => {
   console.log(`app listening at ${process.env.PORT}`);

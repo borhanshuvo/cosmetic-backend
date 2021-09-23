@@ -1,6 +1,5 @@
 // external import
 const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
 
 // internal imports
 const User = require("../models/User");
@@ -23,28 +22,16 @@ async function addUser(req, res, next) {
   let newUser;
   const hashedPassword = await bcrypt.hash(req.body.password, 10);
 
-  // prepare the user object to generate token
-  const userObject = {
-    name: req.body.name,
-    email: req.body.email,
-    role: "user",
-  };
-
-  // generate token
-  const tokenCreate = jwt.sign(userObject, process.env.JWT_SECRET);
-
   if (req.files && req.files.length > 0) {
     newUser = new User({
       ...req.body,
       avatar: `${process.env.URL}/uploads/avatars/${req.files[0].filename}`,
       password: hashedPassword,
-      token: tokenCreate,
     });
   } else {
     newUser = new User({
       ...req.body,
       password: hashedPassword,
-      token: tokenCreate,
     });
   }
 

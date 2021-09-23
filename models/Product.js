@@ -1,38 +1,31 @@
 const mongoose = require("mongoose");
 
-const userSchema = mongoose.Schema(
+const productSchema = mongoose.Schema(
   {
-    name: {
+    title: {
       type: String,
       require: true,
       trim: true,
     },
-    email: {
+    description: {
       type: String,
       require: true,
       trim: true,
-      lowercase: true,
-      unique: true,
     },
-    aboutMe: {
+    bid: {
       type: String,
       require: true,
     },
-    instagramUsername: {
+    quantity: {
       type: String,
       require: true,
     },
-    avatar: {
-      type: String,
-    },
-    password: {
+    price: {
       type: String,
       require: true,
     },
-    role: {
+    img: {
       type: String,
-      enum: ["admin", "user"],
-      default: "user",
     },
   },
   {
@@ -40,5 +33,5 @@ const userSchema = mongoose.Schema(
   }
 );
 
-const User = mongoose.model("User", userSchema);
-module.exports = User;
+const Product = mongoose.model("Product", productSchema);
+module.exports = Product;
