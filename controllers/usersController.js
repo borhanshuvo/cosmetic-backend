@@ -10,7 +10,6 @@ const User = require("../models/User");
 async function getUsers(req, res, next) {
   try {
     const users = await User.find({});
-    const { password, ...rest } = users[0]._doc;
     res.status(200).json(users);
   } catch (err) {
     res.status(500).json({
