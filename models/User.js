@@ -1,3 +1,4 @@
+// external imports
 const mongoose = require("mongoose");
 
 const userSchema = mongoose.Schema(
@@ -24,6 +25,11 @@ const userSchema = mongoose.Schema(
     },
     avatar: {
       type: String,
+      default: "",
+    },
+    imgURL: {
+      type: String,
+      default: "",
     },
     password: {
       type: String,

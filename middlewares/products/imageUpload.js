@@ -2,7 +2,7 @@ const uploader = require("../../utilities/imageUpload");
 
 function imageUpload(req, res, next) {
   const upload = uploader(
-    "avatars",
+    "products",
     ["image/jpeg", "image/png", "image/jpg"],
     1000000,
     "Only .jpg, jpeg and .png format allowed!"
@@ -13,7 +13,7 @@ function imageUpload(req, res, next) {
     if (err) {
       res.status(500).json({
         errors: {
-          avatar: {
+          img: {
             msg: err,
           },
         },

@@ -1,5 +1,7 @@
 // external import
 const bcrypt = require("bcrypt");
+const { unlink } = require("fs");
+const path = require("path");
 
 // internal imports
 const User = require("../models/User");
@@ -9,10 +11,10 @@ async function getUsers(req, res, next) {
   try {
     const users = await User.find({});
     const { password, ...rest } = users[0]._doc;
-    res.status(200).json(rest);
+    res.status(200).json(users);
   } catch (err) {
     res.status(500).json({
-      message: "Unknown error occured!",
+      message: "Internal Server Error!",
     });
   }
 }
@@ -25,7 +27,8 @@ async function addUser(req, res, next) {
   if (req.files && req.files.length > 0) {
     newUser = new User({
       ...req.body,
-      avatar: `${process.env.URL}/uploads/avatars/${req.files[0].filename}`,
+      avatar: `${req.files[0].filename}`,
+      imgURL: `${process.env.URL}/uploads/avatars/${req.files[0].filename}`,
       password: hashedPassword,
     });
   } else {
@@ -35,7 +38,7 @@ async function addUser(req, res, next) {
     });
   }
 
-  // save user or send user
+  // save user
   try {
     const result = await newUser.save();
     res.status(200).json({
@@ -43,7 +46,37 @@ async function addUser(req, res, next) {
     });
   } catch (err) {
     res.status(500).json({
-      message: "Unknown error occured!",
+      message: "Internal Server Error!",
+    });
+  }
+}
+
+// update user
+async function updateUser(req, res, next) {
+  const id = req.params.id;
+  const user = await User.find({ _id: id });
+  if (req.files && req.files.length > 0) {
+    // remove avatar from directory
+    if (user.avatar !== "") {
+      unlink(
+        path.join(__dirname, `/../public/uploads/avatars/${user[0].avatar}`),
+        (err) => {
+          if (err) {
+            console.log(err);
+          }
+        }
+      );
+    }
+    req.body.avatar = `${req.files[0].filename}`;
+    req.body.imgURL = `${process.env.URL}/uploads/avatars/${req.files[0].filename}`;
+  }
+  // save user
+  try {
+    const result = await User.findByIdAndUpdate(id, req.body, { new: true });
+    res.status(200).json(result);
+  } catch (err) {
+    res.status(500).json({
+      message: "Internal Server Error!",
     });
   }
 }
@@ -51,4 +84,5 @@ async function addUser(req, res, next) {
 module.exports = {
   getUsers,
   addUser,
+  updateUser,
 };

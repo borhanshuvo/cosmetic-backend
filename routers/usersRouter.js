@@ -1,6 +1,6 @@
 // external imports
 const express = require("express");
-const { addUser, getUsers } = require("../controllers/usersController");
+const { addUser, getUsers, updateUser } = require("../controllers/usersController");
 const { checkLogin } = require("../middlewares/common/checkLogin");
 const avatarUpload = require("../middlewares/users/avatarUpload");
 const {
@@ -12,7 +12,7 @@ const {
 const router = express.Router();
 
 // get user
-router.get("/get", checkLogin, getUsers);
+router.get("/get",checkLogin, getUsers);
 
 // add user
 router.post(
@@ -22,5 +22,8 @@ router.post(
   addUserValidationHandler,
   addUser
 );
+
+// update user
+router.put("/update/:id",checkLogin, avatarUpload, updateUser);
 
 module.exports = router;

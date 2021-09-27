@@ -1,3 +1,4 @@
+// external imports
 const mongoose = require("mongoose");
 
 const productSchema = mongoose.Schema(
@@ -26,6 +27,11 @@ const productSchema = mongoose.Schema(
     },
     img: {
       type: String,
+      require: true,
+    },
+    imgURL: {
+      type: String,
+      require: true,
     },
   },
   {
