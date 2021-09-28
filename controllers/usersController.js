@@ -3,6 +3,7 @@ const bcrypt = require("bcrypt");
 const { unlink } = require("fs");
 const path = require("path");
 const nodemailer = require("nodemailer");
+const mongoose = require("mongoose");
 
 // internal imports
 const User = require("../models/User");
@@ -180,6 +181,28 @@ async function changePassword(req, res, next) {
   }
 }
 
+// remove notification
+async function deleteNotification(req, res, next) {
+  try {
+    const id = `${new mongoose.Types.ObjectId(req.params.id)}`;
+    const email = req.body.email;
+    const user = await User.findOne({ email: email });
+    const notification = user.notification.filter((nt) => `${nt._id}` !== id);
+    await User.findByIdAndUpdate(
+      { _id: user._id },
+      { $set: { notification: notification } },
+      { useFindAndModify: false }
+    );
+    res.status(200).json({
+      message: "Notification was deleted successfully!",
+    });
+  } catch (err) {
+    res.status(500).json({
+      message: "Internal server error!",
+    });
+  }
+}
+
 module.exports = {
   getUsers,
   addUser,
@@ -187,4 +210,5 @@ module.exports = {
   resetPasswordMail,
   checkVerificationCode,
   changePassword,
+  deleteNotification,
 };

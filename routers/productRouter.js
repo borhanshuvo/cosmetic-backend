@@ -15,7 +15,7 @@ const router = express.Router();
 router.get("/get", getProducts);
 
 // add product
-router.post("/post", checkLogin, imageUpload, addProduct);
+router.post("/post", imageUpload, addProduct);
 
 // update product
 router.put("/update/:id", checkLogin, imageUpload, updateProduct);

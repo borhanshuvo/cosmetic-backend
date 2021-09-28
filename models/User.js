@@ -38,6 +38,10 @@ const userSchema = mongoose.Schema(
     verificationCode: {
       type: String,
     },
+    notification: {
+      type: Array,
+      default: [],
+    },
     role: {
       type: String,
       enum: ["admin", "user"],

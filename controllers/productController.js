@@ -4,6 +4,7 @@ const path = require("path");
 
 // internal imports
 const Product = require("../models/Product");
+const User = require("../models/User");
 
 // get products
 async function getProducts(req, res, next) {
@@ -27,15 +28,24 @@ async function addProduct(req, res, next) {
       img: `${req.files[0].filename}`,
       imgURL: `${process.env.URL}/uploads/products/${req.files[0].filename}`,
     });
-  } else {
-    newProduct = new Product({
-      ...req.body,
-    });
   }
 
   // save product
   try {
     const result = await newProduct.save();
+    const users = await User.find({});
+
+    users.map(async (user) => {
+      const prevNotification = user.notification;
+      const notification = [result, ...prevNotification];
+
+      await User.findByIdAndUpdate(
+        { _id: user._id },
+        { $set: { notification: notification } },
+        { useFindAndModify: false }
+      );
+    });
+
     res.status(200).json({
       message: "Product was added successfully!",
     });

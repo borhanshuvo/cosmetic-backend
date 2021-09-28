@@ -7,6 +7,7 @@ const {
   resetPasswordMail,
   checkVerificationCode,
   changePassword,
+  deleteNotification,
 } = require("../controllers/usersController");
 const { checkLogin } = require("../middlewares/common/checkLogin");
 const avatarUpload = require("../middlewares/users/avatarUpload");
@@ -41,5 +42,8 @@ router.put("/checkVerificationCode", checkVerificationCode);
 
 // change password
 router.put("/changePassword", changePassword);
+
+// remove notification
+router.delete("/deleteNotification/:id", deleteNotification);
 
 module.exports = router;
