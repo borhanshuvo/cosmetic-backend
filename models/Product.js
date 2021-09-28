@@ -5,33 +5,33 @@ const productSchema = mongoose.Schema(
   {
     title: {
       type: String,
-      require: true,
+      required: true,
       trim: true,
     },
     description: {
       type: String,
-      require: true,
+      required: true,
       trim: true,
     },
     bid: {
       type: String,
-      require: true,
+      required: true,
     },
     quantity: {
       type: String,
-      require: true,
+      required: true,
     },
     price: {
       type: String,
-      require: true,
+      required: true,
     },
     img: {
       type: String,
-      require: true,
+      required: true,
     },
     imgURL: {
       type: String,
-      require: true,
+      required: true,
     },
   },
   {

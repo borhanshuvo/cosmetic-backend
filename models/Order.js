@@ -1,7 +1,7 @@
 // external imports
 const mongoose = require("mongoose");
 
-const userSchema = mongoose.Schema(
+const orderSchema = mongoose.Schema(
   {
     name: {
       type: String,
@@ -13,32 +13,37 @@ const userSchema = mongoose.Schema(
       required: true,
       trim: true,
       lowercase: true,
-      unique: true,
     },
-    aboutMe: {
+    address: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+    streetAddress: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+    city: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+    phone: {
       type: String,
       required: true,
     },
-    instagramUsername: {
+    quantity: {
       type: String,
       required: true,
     },
-    avatar: {
-      type: String,
-      default: "",
-    },
-    imgURL: {
-      type: String,
-      default: "",
-    },
-    password: {
-      type: String,
+    product: {
+      type: Object,
       required: true,
     },
-    role: {
+    price: {
       type: String,
-      enum: ["admin", "user"],
-      default: "user",
+      required: true,
     },
   },
   {
@@ -46,5 +51,5 @@ const userSchema = mongoose.Schema(
   }
 );
 
-const User = mongoose.model("User", userSchema);
-module.exports = User;
+const Order = mongoose.model("Order", orderSchema);
+module.exports = Order;
