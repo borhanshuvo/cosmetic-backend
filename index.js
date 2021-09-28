@@ -12,7 +12,8 @@ dotenv.config();
 const usersRoute = require("./routers/usersRouter");
 const loginRoute = require("./routers/loginRouter");
 const productRoute = require("./routers/productRouter");
-const categoryRoute = require("./routers/categoryRoute");
+const categoryRoute = require("./routers/categoryRouter");
+const orderRoute = require("./routers/orderRouter");
 
 // Database connection
 mongoose
@@ -40,6 +41,7 @@ app.use("/user", usersRoute);
 app.use("/login", loginRoute);
 app.use("/product", productRoute);
 app.use("/category", categoryRoute);
+app.use("/order", orderRoute);
 
 app.listen(process.env.PORT, () => {
   console.log(`app listening at ${process.env.PORT}`);
