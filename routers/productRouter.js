@@ -12,7 +12,7 @@ const imageUpload = require("../middlewares/products/imageUpload");
 const router = express.Router();
 
 // get product
-router.get("/get", getProducts);
+router.get("/get", checkLogin, getProducts);
 
 // add product
 router.post("/post", checkLogin, imageUpload, addProduct);
