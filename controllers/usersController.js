@@ -2,9 +2,11 @@
 const bcrypt = require("bcrypt");
 const { unlink } = require("fs");
 const path = require("path");
+const nodemailer = require("nodemailer");
 
 // internal imports
 const User = require("../models/User");
+const e = require("express");
 
 // get users
 async function getUsers(req, res, next) {
@@ -84,8 +86,105 @@ async function updateUser(req, res, next) {
   }
 }
 
+// password reset mail
+async function resetPasswordMail(req, res, next) {
+  const email = req.body.email;
+  try {
+    const transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: process.env.NODEMAILER_EMAIL,
+        pass: process.env.NODEMAILER_PASS,
+      },
+    });
+
+    const randomNumber = Math.ceil(Math.random() * 1000000);
+    const date = new Date().getDate();
+    const hours = new Date().getHours();
+    const seccond = new Date().getSeconds();
+    const code = randomNumber + date + hours + seccond;
+    const user = await User.findOne({ email: email });
+    req.body.verificationCode = code;
+    const result = await User.findByIdAndUpdate(user._id, req.body, {
+      new: true,
+    });
+
+    const mailOptions = {
+      from: process.env.NODEMAILER_EMAIL,
+      to: email,
+      subject: "Reset Password",
+      text: `Your verification code : ${code}`,
+    };
+
+    transporter.sendMail(mailOptions, (err, info) => {
+      if (err) {
+        console.log(err);
+      } else {
+        res.status(200).json({
+          message: `Check your mail - ${email} for reset password`,
+        });
+      }
+    });
+  } catch (err) {
+    res.status(500).json({
+      message: "Internal Server Error!",
+    });
+  }
+}
+
+// check verification code
+async function checkVerificationCode(req, res, next) {
+  try {
+    const email = req.body.email;
+    const user = await User.findOne({ email: email });
+    const code = req.body.code;
+    if (user.verificationCode === code) {
+      res.status(200).json({
+        message: "Verification code matched!",
+      });
+    } else {
+      res.status(400).json({
+        message: "Something went wrong!",
+      });
+    }
+  } catch (err) {
+    res.status(500).json({
+      message: "Internal Server Error!",
+    });
+  }
+}
+
+// change password
+async function changePassword(req, res, next) {
+  try {
+    const code = req.body.code;
+    const user = await User.findOne({ verificationCode: code });
+    const hashedPassword = await bcrypt.hash(req.body.password, 10);
+    req.body.password = hashedPassword;
+    const result = await User.findByIdAndUpdate(user._id, req.body, {
+      new: true,
+    });
+    if (result) {
+      res.status(200).json({
+        message: "Password changed successfully!",
+      });
+    } else {
+      res.status(400).json({
+        message: "Something went wrong!",
+      });
+    }
+  } catch (err) {
+    res.status(500).json({
+      message: "Internal Server Error!",
+    });
+  }
+}
+
 module.exports = {
   getUsers,
   addUser,
   updateUser,
+  resetPasswordMail,
+  checkVerificationCode,
+  changePassword,
 };

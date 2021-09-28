@@ -38,12 +38,17 @@ const orderSchema = mongoose.Schema(
       required: true,
     },
     product: {
-      type: Object,
+      type: Array,
       required: true,
     },
     price: {
       type: String,
       required: true,
+    },
+    status: {
+      type: String,
+      enum: ["deliverd", "pending"],
+      default: "pending",
     },
   },
   {
