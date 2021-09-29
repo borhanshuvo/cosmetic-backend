@@ -14,6 +14,7 @@ const loginRoute = require("./routers/loginRouter");
 const productRoute = require("./routers/productRouter");
 const categoryRoute = require("./routers/categoryRouter");
 const orderRoute = require("./routers/orderRouter");
+const bidRequestRoute = require("./routers/bidRequestRouter");
 
 // Database connection
 mongoose
@@ -42,6 +43,7 @@ app.use("/login", loginRoute);
 app.use("/product", productRoute);
 app.use("/category", categoryRoute);
 app.use("/order", orderRoute);
+app.use("/bidRequest", bidRequestRoute);
 
 app.listen(process.env.PORT, () => {
   console.log(`app listening at ${process.env.PORT}`);

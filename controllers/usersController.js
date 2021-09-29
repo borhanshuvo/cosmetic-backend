@@ -7,7 +7,7 @@ const mongoose = require("mongoose");
 
 // internal imports
 const User = require("../models/User");
-const e = require("express");
+const escape = require("../utilities/escape");
 
 // get users
 async function getUsers(req, res, next) {
@@ -203,6 +203,32 @@ async function deleteNotification(req, res, next) {
   }
 }
 
+// search user info
+async function searchUser(req, res, next) {
+  const searchKey = req.body.search;
+  const name_search_regex = new RegExp(escape(searchKey), "i");
+  const email_search_regex = new RegExp("^" + escape(searchKey) + "$", "i");
+  try {
+    if (searchKey !== "") {
+      const user = await User.find({
+        $or: [
+          {
+            name: name_search_regex,
+          },
+          {
+            email: email_search_regex,
+          },
+        ],
+      });
+      res.status(200).json(user);
+    }
+  } catch (err) {
+    res.status(500).json({
+      message: "Internal server error!",
+    });
+  }
+}
+
 module.exports = {
   getUsers,
   addUser,
@@ -211,4 +237,5 @@ module.exports = {
   checkVerificationCode,
   changePassword,
   deleteNotification,
+  searchUser,
 };

@@ -8,6 +8,7 @@ const {
   checkVerificationCode,
   changePassword,
   deleteNotification,
+  searchUser,
 } = require("../controllers/usersController");
 const { checkLogin } = require("../middlewares/common/checkLogin");
 const avatarUpload = require("../middlewares/users/avatarUpload");
@@ -45,5 +46,8 @@ router.put("/changePassword", changePassword);
 
 // remove notification
 router.delete("/deleteNotification/:id", deleteNotification);
+
+// search user
+router.post("/search", searchUser);
 
 module.exports = router;
