@@ -221,6 +221,10 @@ async function searchUser(req, res, next) {
         ],
       });
       res.status(200).json(user);
+    } else {
+      res.status(200).json({
+        message: "User not found!",
+      });
     }
   } catch (err) {
     res.status(500).json({

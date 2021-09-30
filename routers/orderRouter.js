@@ -1,6 +1,10 @@
 // external imports
 const express = require("express");
-const { getOrders, addOrder } = require("../controllers/orderController");
+const {
+  getOrders,
+  addOrder,
+  orderInfo,
+} = require("../controllers/orderController");
 
 // internal imports
 const router = express.Router();
@@ -10,5 +14,8 @@ router.get("/get", getOrders);
 
 // add order info
 router.post("/post", addOrder);
+
+// get product by user email
+router.post("/info", orderInfo);
 
 module.exports = router;

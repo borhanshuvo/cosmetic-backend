@@ -14,6 +14,14 @@ const orderSchema = mongoose.Schema(
       trim: true,
       lowercase: true,
     },
+    img: {
+      type: String,
+      required: true,
+    },
+    imgURL: {
+      type: String,
+      required: true,
+    },
     address: {
       type: String,
       required: true,
