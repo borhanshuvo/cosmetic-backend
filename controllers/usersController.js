@@ -4,6 +4,7 @@ const { unlink } = require("fs");
 const path = require("path");
 const nodemailer = require("nodemailer");
 const mongoose = require("mongoose");
+const moment = require("moment");
 
 // internal imports
 const User = require("../models/User");
@@ -205,12 +206,29 @@ async function deleteNotification(req, res, next) {
 
 // search user info
 async function searchUser(req, res, next) {
+  const d = 02;
+  const m = 09 - 01;
+  const y = 2021;
+  const h = 12;
+  const min = 30;
+  const time = am;
+
+  const hello = `${moment().set({
+    year: y,
+    month: m,
+    date: d,
+    hour: h,
+    minute: min,
+  })}`;
+
+  console.log(hello.slice(4, 21));
+
   const searchKey = req.body.search;
   const name_search_regex = new RegExp(escape(searchKey), "i");
   const email_search_regex = new RegExp("^" + escape(searchKey) + "$", "i");
   try {
     if (searchKey !== "") {
-      const user = await User.find({
+      const users = await User.find({
         $or: [
           {
             name: name_search_regex,
@@ -220,7 +238,18 @@ async function searchUser(req, res, next) {
           },
         ],
       });
-      res.status(200).json(user);
+
+      if (users.length > 0) {
+        const user = users.map((user) => {
+          const { password, ...rest } = user._doc;
+          return rest;
+        });
+        res.status(200).json(user);
+      } else {
+        res.status(200).json({
+          message: "User not found!",
+        });
+      }
     } else {
       res.status(200).json({
         message: "User not found!",

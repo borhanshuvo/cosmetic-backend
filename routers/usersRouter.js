@@ -21,7 +21,7 @@ const {
 const router = express.Router();
 
 // get user
-router.get("/get", checkLogin, getUsers);
+router.get("/get", getUsers);
 
 // add user
 router.post(
