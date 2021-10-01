@@ -29,7 +29,7 @@ async function login(req, res, next) {
 
     if (isValidPassword) {
       const { password, ...rest } = user._doc;
-      res.status(200).json({ rest, accessToken });
+      res.status(200).json({ user: rest, accessToken });
     } else {
       res.status(500).json({
         message: "Authentication error!",
