@@ -44,11 +44,11 @@ const addUserValidators = [
 const addUserValidationHandler = function (req, res, next) {
   const errors = validationResult(req);
   const mappedErrors = errors.mapped();
-  if (Object.keys(mappedErrors).length === 0) {
+  if (Object.keys(mappedErrors)?.length === 0) {
     next();
   } else {
     // remove upload file
-    if (req.files.length > 0) {
+    if (req.files?.length > 0) {
       const { filename } = req.files[0];
       unlink(
         path.join(__dirname, `/../../public/uploads/avatars/${filename}`),
