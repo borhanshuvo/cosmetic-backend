@@ -106,30 +106,36 @@ async function resetPasswordMail(req, res, next) {
     const seccond = new Date().getSeconds();
     const code = randomNumber + date + hours + seccond;
     const user = await User.findOne({ email: email });
-    req.body.verificationCode = code;
-    const result = await User.findByIdAndUpdate(user._id, req.body, {
-      new: true,
-    });
+    if (user) {
+      req.body.verificationCode = code;
+      const result = await User.findByIdAndUpdate(user._id, req.body, {
+        new: true,
+      });
 
-    const mailOptions = {
-      from: process.env.NODEMAILER_EMAIL,
-      to: email,
-      subject: "Reset Password",
-      text: `Your verification code : ${code}`,
-    };
+      const mailOptions = {
+        from: process.env.NODEMAILER_EMAIL,
+        to: email,
+        subject: "Reset Password",
+        text: `Your verification code : ${code}`,
+      };
 
-    transporter.sendMail(mailOptions, (err, info) => {
-      if (err) {
-        console.log(err);
-      } else {
-        res.status(200).json({
-          message: `Check your mail - ${email} for reset password`,
-        });
-      }
-    });
+      transporter.sendMail(mailOptions, (err, info) => {
+        if (err) {
+          console.log(err);
+        } else {
+          res.status(200).json({
+            success: `Check your mail - ${email} for reset password`,
+          });
+        }
+      });
+    } else {
+      res.status(200).json({
+        error: `User not found - ${email}`,
+      });
+    }
   } catch (err) {
     res.status(500).json({
-      message: "Internal Server Error!",
+      error: "Internal Server Error!",
     });
   }
 }
