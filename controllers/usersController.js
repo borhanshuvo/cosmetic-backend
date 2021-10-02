@@ -49,11 +49,11 @@ async function addUser(req, res, next) {
   try {
     const result = await newUser.save();
     res.status(200).json({
-      message: "User was added successfully!",
+      success: "User was added successfully!",
     });
   } catch (err) {
     res.status(500).json({
-      message: "Internal Server Error!",
+      error: "Internal Server Error!",
     });
   }
 }
