@@ -143,21 +143,20 @@ async function resetPasswordMail(req, res, next) {
 // check verification code
 async function checkVerificationCode(req, res, next) {
   try {
-    const email = req.body.email;
-    const user = await User.findOne({ email: email });
     const code = req.body.code;
-    if (user.verificationCode === code) {
+    const user = await User.findOne({ verificationCode: code });
+    if (user) {
       res.status(200).json({
-        message: "Verification code matched!",
+        success: "Verification code matched!",
       });
     } else {
       res.status(400).json({
-        message: "Something went wrong!",
+        error: "Something went wrong!",
       });
     }
   } catch (err) {
     res.status(500).json({
-      message: "Internal Server Error!",
+      error: "Internal Server Error!",
     });
   }
 }
@@ -174,16 +173,16 @@ async function changePassword(req, res, next) {
     });
     if (result) {
       res.status(200).json({
-        message: "Password changed successfully!",
+        success: "Password changed successfully!",
       });
     } else {
       res.status(400).json({
-        message: "Something went wrong!",
+        error: "Something went wrong!",
       });
     }
   } catch (err) {
     res.status(500).json({
-      message: "Internal Server Error!",
+      error: "Internal Server Error!",
     });
   }
 }
