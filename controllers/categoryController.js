@@ -8,7 +8,7 @@ async function getCategory(req, res, next) {
     res.status(200).json(categories);
   } catch (err) {
     res.status(500).json({
-      message: "Internal Server Error!",
+      error: "Internal Server Error!",
     });
   }
 }
@@ -19,11 +19,11 @@ async function addCategory(req, res, next) {
     const category = new Category(req.body);
     const result = await category.save();
     res.status(200).json({
-      message: "Category was added successfully!",
+      success: "Category was added successfully!",
     });
   } catch (err) {
     res.status(500).json({
-      message: "Internal Server Error!",
+      error: "Internal Server Error!",
     });
   }
 }
