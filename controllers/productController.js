@@ -13,7 +13,7 @@ async function getProducts(req, res, next) {
     res.status(200).json(products);
   } catch (err) {
     res.status(500).json({
-      message: "Internal Server Error!",
+      error: "Internal Server Error!",
     });
   }
 }
@@ -26,7 +26,7 @@ async function addProduct(req, res, next) {
     newProduct = new Product({
       ...req.body,
       img: `${req.files[0].filename}`,
-      imgURL: `${process.env.URL}/uploads/products/${req.files[0].filename}`,
+      imgURL: `/uploads/products/${req.files[0].filename}`,
     });
   }
 
@@ -47,11 +47,11 @@ async function addProduct(req, res, next) {
     });
 
     res.status(200).json({
-      message: "Product was added successfully!",
+      success: "Product was added successfully!",
     });
   } catch (err) {
     res.status(500).json({
-      message: "Internal Server Error!",
+      error: "Internal Server Error!",
     });
   }
 }
@@ -73,7 +73,7 @@ async function updateProduct(req, res, next) {
       );
     }
     req.body.img = `${req.files[0].filename}`;
-    req.body.imgURL = `${process.env.URL}/uploads/products/${req.files[0].filename}`;
+    req.body.imgURL = `/uploads/products/${req.files[0].filename}`;
   }
   // save product
   try {
@@ -81,7 +81,7 @@ async function updateProduct(req, res, next) {
     res.status(200).json(result);
   } catch (err) {
     res.status(500).json({
-      message: "Internal Server Error!",
+      error: "Internal Server Error!",
     });
   }
 }
