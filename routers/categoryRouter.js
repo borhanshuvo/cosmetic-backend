@@ -13,6 +13,6 @@ const router = express.Router();
 router.get("/get", getCategory);
 
 // post category
-router.post("/post", checkLogin, addCategory);
+router.post("/post", addCategory);
 
 module.exports = router;
