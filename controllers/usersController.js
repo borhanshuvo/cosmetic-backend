@@ -21,7 +21,7 @@ async function getUsers(req, res, next) {
     res.status(200).json(users);
   } catch (err) {
     res.status(500).json({
-      message: "Internal Server Error!",
+      error: "Internal Server Error!",
     });
   }
 }
@@ -83,7 +83,7 @@ async function updateUser(req, res, next) {
     res.status(200).json(result);
   } catch (err) {
     res.status(500).json({
-      message: "Internal Server Error!",
+      error: "Internal Server Error!",
     });
   }
 }
@@ -200,11 +200,11 @@ async function deleteNotification(req, res, next) {
       { useFindAndModify: false }
     );
     res.status(200).json({
-      message: "Notification was deleted successfully!",
+      success: "Notification was deleted successfully!",
     });
   } catch (err) {
     res.status(500).json({
-      message: "Internal server error!",
+      error: "Internal server error!",
     });
   }
 }
