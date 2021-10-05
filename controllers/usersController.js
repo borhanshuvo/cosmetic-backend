@@ -187,6 +187,19 @@ async function changePassword(req, res, next) {
   }
 }
 
+// get user notification
+async function getUserNotification(req, res, next) {
+  try {
+    const email = req.body.email;
+    const result = await User.findOne({ email });
+    res.status(200).json(result.notification);
+  } catch (err) {
+    res.status(500).json({
+      error: "Internal Server Error!",
+    });
+  }
+}
+
 // remove notification
 async function deleteNotification(req, res, next) {
   try {
@@ -276,4 +289,5 @@ module.exports = {
   changePassword,
   deleteNotification,
   searchUser,
+  getUserNotification
 };

@@ -9,6 +9,7 @@ const {
   changePassword,
   deleteNotification,
   searchUser,
+  getUserNotification,
 } = require("../controllers/usersController");
 const { checkLogin } = require("../middlewares/common/checkLogin");
 const avatarUpload = require("../middlewares/users/avatarUpload");
@@ -49,5 +50,8 @@ router.delete("/deleteNotification/:id", deleteNotification);
 
 // search user
 router.post("/search", searchUser);
+
+// get user notification
+router.post("/getUserNotification", getUserNotification);
 
 module.exports = router;
