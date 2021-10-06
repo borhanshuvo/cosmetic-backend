@@ -16,8 +16,12 @@ async function getCategory(req, res, next) {
 // get category name
 async function getCategoryName(req, res, next) {
   try {
-    const categories = await Category.find({});
-    res.status(200).json(categories.categoryName);
+    const result = await Category.find({});
+    const categories = result.map((category) => {
+      const { categoryName, ...rest } = category._doc;
+      return categoryName;
+    });
+    res.status(200).json(categories);
   } catch (err) {
     res.status(500).json({
       error: "Internal Server Error!",
