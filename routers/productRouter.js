@@ -18,6 +18,6 @@ router.get("/get", getProducts);
 router.post("/post", imageUpload, addProduct);
 
 // update product
-router.put("/update/:id", checkLogin, imageUpload, updateProduct);
+router.put("/update/:id", imageUpload, updateProduct);
 
 module.exports = router;
