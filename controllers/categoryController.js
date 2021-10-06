@@ -13,6 +13,18 @@ async function getCategory(req, res, next) {
   }
 }
 
+// get category name
+async function getCategoryName(req, res, next) {
+  try {
+    const categories = await Category.find({});
+    res.status(200).json(categories.categoryName);
+  } catch (err) {
+    res.status(500).json({
+      error: "Internal Server Error!",
+    });
+  }
+}
+
 // add category
 async function addCategory(req, res, next) {
   try {
@@ -31,4 +43,5 @@ async function addCategory(req, res, next) {
 module.exports = {
   getCategory,
   addCategory,
+  getCategoryName,
 };
