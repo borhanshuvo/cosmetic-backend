@@ -9,7 +9,7 @@ async function getOrders(req, res, next) {
     res.status(200).json(orders);
   } catch (err) {
     res.status(500).json({
-      message: "Internal Server Error!",
+      error: "Internal Server Error!",
     });
   }
 }
@@ -20,11 +20,11 @@ async function addOrder(req, res, next) {
     const order = new Order(req.body);
     const result = order.save();
     res.status(200).json({
-      message: "Order was added successfully!",
+      success: "Order was added successfully!",
     });
   } catch (err) {
     res.status(500).json({
-      message: "Internal Server Error!",
+      error: "Internal Server Error!",
     });
   }
 }
@@ -41,12 +41,12 @@ async function orderInfo(req, res, next) {
       res.status(200).json({ orderInfo, userInfo: rest });
     } else {
       res.status(400).json({
-        message: "User not found!",
+        error: "User not found!",
       });
     }
   } catch (err) {
     res.status(500).json({
-      message: "Internal Server Error!",
+      error: "Internal Server Error!",
     });
   }
 }
