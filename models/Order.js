@@ -46,7 +46,7 @@ const orderSchema = mongoose.Schema(
       required: true,
     },
     product: {
-      type: Array,
+      type: Object,
       required: true,
     },
     price: {
