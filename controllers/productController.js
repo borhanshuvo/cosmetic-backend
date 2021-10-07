@@ -18,6 +18,19 @@ async function getProducts(req, res, next) {
   }
 }
 
+// get single products
+async function getSingleProduct(req, res, next) {
+  try {
+    const id = req.params.id;
+    const product = await Product.findOne({ id: id });
+    res.status(200).json(product);
+  } catch (err) {
+    res.status(500).json({
+      error: "Internal Server Error!",
+    });
+  }
+}
+
 // add products
 async function addProduct(req, res, next) {
   let newProduct;
@@ -90,4 +103,5 @@ module.exports = {
   getProducts,
   addProduct,
   updateProduct,
+  getSingleProduct,
 };

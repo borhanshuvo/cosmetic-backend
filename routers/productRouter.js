@@ -4,6 +4,7 @@ const {
   getProducts,
   addProduct,
   updateProduct,
+  getSingleProduct,
 } = require("../controllers/productController");
 const { checkLogin } = require("../middlewares/common/checkLogin");
 const imageUpload = require("../middlewares/products/imageUpload");
@@ -13,6 +14,9 @@ const router = express.Router();
 
 // get product
 router.get("/get", getProducts);
+
+// get single product
+router.get("/get/:id", getSingleProduct);
 
 // add product
 router.post("/post", imageUpload, addProduct);
