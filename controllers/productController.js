@@ -22,7 +22,7 @@ async function getProducts(req, res, next) {
 async function getSingleProduct(req, res, next) {
   try {
     const id = req.params.id;
-    const product = await Product.findOne({ id: id });
+    const product = await Product.findOne({ _id: id });
     res.status(200).json(product);
   } catch (err) {
     res.status(500).json({
