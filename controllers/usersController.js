@@ -26,6 +26,23 @@ async function getUsers(req, res, next) {
   }
 }
 
+// get user by id
+async function singleUser(req, res, next) {
+  try {
+    const id = req.params.id;
+    const result = await User.find({ _id: id });
+    const user = result.map((user) => {
+      const { password, ...rest } = user._doc;
+      return rest;
+    });
+    res.status(200).json(user);
+  } catch (err) {
+    res.status(500).json({
+      error: "Internal Server Error!",
+    });
+  }
+}
+
 // add users
 async function addUser(req, res, next) {
   let newUser;
@@ -289,5 +306,6 @@ module.exports = {
   changePassword,
   deleteNotification,
   searchUser,
-  getUserNotification
+  getUserNotification,
+  singleUser,
 };

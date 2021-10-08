@@ -10,6 +10,7 @@ const {
   deleteNotification,
   searchUser,
   getUserNotification,
+  singleUser,
 } = require("../controllers/usersController");
 const { checkLogin } = require("../middlewares/common/checkLogin");
 const avatarUpload = require("../middlewares/users/avatarUpload");
@@ -23,6 +24,9 @@ const router = express.Router();
 
 // get user
 router.get("/get", getUsers);
+
+// get user by id
+router.get("/get/:id", singleUser);
 
 // add user
 router.post(

@@ -20,12 +20,8 @@ const bidRequestSchema = mongoose.Schema(
       type: String,
       required: true,
     },
-    quantity: {
-      type: String,
-      required: true,
-    },
     product: {
-      type: Array,
+      type: Object,
       required: true,
     },
     bidAmmount: {
@@ -34,8 +30,8 @@ const bidRequestSchema = mongoose.Schema(
     },
     status: {
       type: String,
-      enum: ["approved", "not approved", "pending"],
-      default: "pending",
+      enum: ["Approved", "Not Approved", "Pending"],
+      default: "Pending",
     },
   },
   {

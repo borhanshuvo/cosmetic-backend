@@ -17,6 +17,5 @@ router.post("/post", addOrder);
 
 // get order by user email
 router.post("/info", orderInfo);
-// router.get("/info/:id", orderInfo);
 
 module.exports = router;
