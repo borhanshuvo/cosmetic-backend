@@ -15,7 +15,8 @@ router.get("/get", getOrders);
 // add order info
 router.post("/post", addOrder);
 
-// get product by user email
-router.get("/info/:id", orderInfo);
+// get order by user email
+router.get("/info", orderInfo);
+// router.get("/info/:id", orderInfo);
 
 module.exports = router;
