@@ -8,6 +8,7 @@ const moment = require("moment");
 
 // internal imports
 const User = require("../models/User");
+const Order = require("../models/Order");
 const escape = require("../utilities/escape");
 
 // get users
@@ -35,7 +36,14 @@ async function singleUser(req, res, next) {
       const { password, ...rest } = user._doc;
       return rest;
     });
-    res.status(200).json(user);
+    if (user) {
+      const userProduct = await Order.find({ email: user[0].email });
+      res.status(200).json({ user, userProduct });
+    } else {
+      res.status(400).json({
+        error: "User not found!",
+      });
+    }
   } catch (err) {
     res.status(500).json({
       error: "Internal Server Error!",
