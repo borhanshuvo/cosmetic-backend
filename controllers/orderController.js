@@ -5,7 +5,7 @@ const User = require("../models/User");
 // get order list
 async function getOrders(req, res, next) {
   try {
-    const orders = await Order.find({});
+    const orders = await Order.find({}).sort({ createdAt: -1 });
     res.status(200).json(orders);
   } catch (err) {
     res.status(500).json({
