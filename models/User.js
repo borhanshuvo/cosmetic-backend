@@ -25,11 +25,11 @@ const userSchema = mongoose.Schema(
     },
     avatar: {
       type: String,
-      default: "profile_img-1632764376893.jpg",
+      default: "",
     },
     imgURL: {
       type: String,
-      default: "/uploads/avatars/profile_img-1632764376893.jpg",
+      default: "",
     },
     password: {
       type: String,
