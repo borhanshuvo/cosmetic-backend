@@ -4,6 +4,7 @@ const {
   getOrders,
   addOrder,
   orderInfo,
+  orderStatus,
 } = require("../controllers/orderController");
 
 // internal imports
@@ -17,5 +18,8 @@ router.post("/post", addOrder);
 
 // get order by user email
 router.post("/info", orderInfo);
+
+// update order status
+router.put("/update/:id", orderStatus);
 
 module.exports = router;

@@ -42,8 +42,35 @@ async function orderInfo(req, res, next) {
   }
 }
 
+// update order status
+async function orderStatus(req, res, next) {
+  try {
+    const id = req.params.id;
+    const status = req.body.status;
+    const result = await Order.findByIdAndUpdate(
+      { _id: id },
+      { $set: { status: status } },
+      { useFindAndModify: false }
+    );
+    if (result) {
+      res.status(200).json({
+        success: "Order status update successfully!",
+      });
+    } else {
+      res.status(304).json({
+        error: "Not modified!",
+      });
+    }
+  } catch (err) {
+    res.status(500).json({
+      error: "Internal Server Error!",
+    });
+  }
+}
+
 module.exports = {
   getOrders,
   addOrder,
   orderInfo,
+  orderStatus,
 };
