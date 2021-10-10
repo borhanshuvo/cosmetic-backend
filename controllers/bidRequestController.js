@@ -8,7 +8,7 @@ async function getBidRequest(req, res, next) {
     res.status(200).json(bidRequest);
   } catch (err) {
     res.status(500).json({
-      message: "Internal server error!",
+      error: "Internal server error!",
     });
   }
 }
@@ -19,11 +19,11 @@ async function addBidRequest(req, res, next) {
     const bidRequest = new BidRequest(req.body);
     const result = await bidRequest.save();
     res.status(200).json({
-      message: "Bid was added successfully!",
+      success: "Bid was added successfully!",
     });
   } catch (err) {
     res.status(500).json({
-      message: "Internal server error!",
+      error: "Internal server error!",
     });
   }
 }
@@ -38,7 +38,7 @@ async function updateBidRequest(req, res, next) {
     res.status(200).json(result);
   } catch (err) {
     res.status(500).json({
-      message: "Internal server error!",
+      error: "Internal server error!",
     });
   }
 }
