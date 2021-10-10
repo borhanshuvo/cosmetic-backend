@@ -14,7 +14,7 @@ const router = express.Router();
 router.get("/get", getBidRequest);
 
 // get bid request data by user
-router.get("/get/:id", getSingleBidRequest);
+router.get("/get/:email", getSingleBidRequest);
 
 // add bid request
 router.post("/post", addBidRequest);

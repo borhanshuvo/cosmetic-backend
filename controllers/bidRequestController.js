@@ -16,8 +16,8 @@ async function getBidRequest(req, res, next) {
 // get bid request data by user
 async function getSingleBidRequest(req, res, next) {
   try {
-    const id = req.params.id;
-    const bidRequest = await BidRequest.find({ _id: id }).sort({
+    const email = req.params.email;
+    const bidRequest = await BidRequest.find({ email: email }).sort({
       createdAt: -1,
     });
     res.status(200).json(bidRequest);
