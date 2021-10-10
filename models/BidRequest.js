@@ -30,7 +30,7 @@ const bidRequestSchema = mongoose.Schema(
     },
     status: {
       type: String,
-      enum: ["Approved", "Not Approved", "Pending"],
+      enum: ["Approved", "NotApproved", "Pending"],
       default: "Pending",
     },
   },
