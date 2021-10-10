@@ -4,7 +4,22 @@ const BidRequest = require("../models/BidRequest");
 // get bid request data
 async function getBidRequest(req, res, next) {
   try {
-    const bidRequest = await BidRequest.find({});
+    const bidRequest = await BidRequest.find({}).sort({ createdAt: -1 });
+    res.status(200).json(bidRequest);
+  } catch (err) {
+    res.status(500).json({
+      error: "Internal server error!",
+    });
+  }
+}
+
+// get bid request data by user
+async function getSingleBidRequest(req, res, next) {
+  try {
+    const id = req.params.id;
+    const bidRequest = await BidRequest.find({ _id: id }).sort({
+      createdAt: -1,
+    });
     res.status(200).json(bidRequest);
   } catch (err) {
     res.status(500).json({
@@ -43,4 +58,9 @@ async function updateBidRequest(req, res, next) {
   }
 }
 
-module.exports = { getBidRequest, addBidRequest, updateBidRequest };
+module.exports = {
+  getBidRequest,
+  addBidRequest,
+  updateBidRequest,
+  getSingleBidRequest,
+};

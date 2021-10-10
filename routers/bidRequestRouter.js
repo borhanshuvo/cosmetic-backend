@@ -4,6 +4,7 @@ const {
   getBidRequest,
   addBidRequest,
   updateBidRequest,
+  getSingleBidRequest,
 } = require("../controllers/bidRequestController");
 
 // internal imports
@@ -11,6 +12,9 @@ const router = express.Router();
 
 // get bid request data
 router.get("/get", getBidRequest);
+
+// get bid request data by user
+router.get("/get/:id", getSingleBidRequest);
 
 // add bid request
 router.post("/post", addBidRequest);
