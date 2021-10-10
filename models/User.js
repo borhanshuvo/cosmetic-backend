@@ -43,8 +43,9 @@ const userSchema = mongoose.Schema(
       default: [],
     },
     premium: {
-      type: Boolean,
-      default: false,
+      type: String,
+      enum: ["Premium", "NotPremium", "Nothing"],
+      default: "Nothing",
     },
     role: {
       type: String,

@@ -60,7 +60,7 @@ async function addUser(req, res, next) {
     newUser = new User({
       ...req.body,
       avatar: `${req.files[0].filename}`,
-      imgURL: `${process.env.URL}/uploads/avatars/${req.files[0].filename}`,
+      imgURL: `/uploads/avatars/${req.files[0].filename}`,
       password: hashedPassword,
     });
   } else {
@@ -100,7 +100,7 @@ async function updateUser(req, res, next) {
       );
     }
     req.body.avatar = `${req.files[0].filename}`;
-    req.body.imgURL = `${process.env.URL}/uploads/avatars/${req.files[0].filename}`;
+    req.body.imgURL = `/uploads/avatars/${req.files[0].filename}`;
   }
   // save user
   try {
