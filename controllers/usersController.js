@@ -73,9 +73,15 @@ async function addUser(req, res, next) {
   // save user
   try {
     const result = await newUser.save();
-    res.status(200).json({
-      success: "User was added successfully!",
-    });
+    if (result) {
+      res.status(200).json({
+        success: "User was added successfully!",
+      });
+    } else {
+      res.status(304).json({
+        error: "Not modified!",
+      });
+    }
   } catch (err) {
     res.status(500).json({
       error: "Internal Server Error!",

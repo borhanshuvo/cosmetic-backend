@@ -37,6 +37,7 @@ const userSchema = mongoose.Schema(
     },
     verificationCode: {
       type: String,
+      default: "",
     },
     notification: {
       type: Array,
