@@ -25,7 +25,7 @@ async function login(req, res, next) {
 
       // token generate
       const accessToken = jwt.sign(userObject, process.env.JWT_SECRET, {
-        expiresIn: "1d",
+        expiresIn: "60s",
       });
 
       if (isValidPassword) {
