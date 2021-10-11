@@ -8,17 +8,20 @@ const specialOfferSchema = mongoose.Schema(
       required: true,
     },
     startingDate: {
-      type: String,
+      type: Number,
       required: true,
     },
     endingDate: {
-      type: String,
+      type: Number,
       required: true,
     },
-    status: {
-      type: String,
-      enum: ["Active", "Deactive"],
-      default: "Active",
+    startingDateMiliSecond: {
+      type: Number,
+      required: true,
+    },
+    endingDateMiliSecond: {
+      type: Number,
+      required: true,
     },
   },
   {

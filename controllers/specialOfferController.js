@@ -8,7 +8,14 @@ async function getAllOfferProduct(req, res, next) {
   try {
     const result = await SpecialOffer.find({}).sort({ createdAt: -1 });
     if (result) {
-      res.status(200).json(result);
+      const offerProduct = result.map((res) => {
+        const newDate = new Date().getTime();
+        const dbEndingDate = res?.endingDateMiliSecond;
+        if (newDate < dbEndingDate) {
+          return res;
+        }
+      });
+      res.status(200).json(offerProduct);
     } else {
       res.status(400).json({
         error: "Not found!",
@@ -36,25 +43,27 @@ async function addOfferProduct(req, res, next) {
     const product = allProduct[indexNumber];
 
     // starting date
-    const sd = `${moment().set({
-      year: startYear,
-      month: startMonth,
-      date: startDate,
-    })}`;
-    const startingDate = sd.slice(4, 15);
+    const startingDate = new Date();
+    startingDate.setFullYear(endYear);
+    startingDate.setMonth(startMonth);
+    startingDate.setDate(startDate);
+
+    const startingDateMiliSecond = startingDate.getTime();
 
     // ending date
-    const ed = `${moment().set({
-      year: endYear,
-      month: endMonth,
-      date: endDate,
-    })}`;
-    const endingDate = ed.slice(4, 15);
+    const endingDate = new Date();
+    endingDate.setFullYear(startYear);
+    endingDate.setMonth(endMonth);
+    endingDate.setDate(endDate);
+
+    const endingDateMiliSecond = endingDate.getTime();
 
     const offerProduct = {
       product,
       startingDate,
+      startingDateMiliSecond,
       endingDate,
+      endingDateMiliSecond,
     };
 
     const specialOffer = new SpecialOffer(offerProduct);
