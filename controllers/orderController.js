@@ -152,6 +152,9 @@ async function getStatisticsValue(req, res, next) {
     const december = dateFormater(year, 11, 0);
     const dec = await monthlyIncome(december.startDate, december.lastDate);
 
+    const yearlyIncome =
+      jan + feb + mar + apr + may + jun + jul + aug + sep + oct + nov + dec;
+
     res.status(200).json({
       jan,
       feb,
@@ -165,6 +168,7 @@ async function getStatisticsValue(req, res, next) {
       oct,
       nov,
       dec,
+      yearlyIncome,
     });
   } catch (err) {
     res.status(500).json({
