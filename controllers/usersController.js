@@ -255,23 +255,6 @@ async function deleteNotification(req, res, next) {
 
 // search user info
 async function searchUser(req, res, next) {
-  // const d = 02;
-  // const m = 09 - 01;
-  // const y = 2021;
-  // const h = 12;
-  // const min = 30;
-  // const time = am;
-
-  // const hello = `${moment().set({
-  //   year: y,
-  //   month: m,
-  //   date: d,
-  //   hour: h,
-  //   minute: min,
-  // })}`;
-
-  // console.log(hello.slice(4, 21));
-
   const searchKey = req.body.search;
   const name_search_regex = new RegExp(escape(searchKey), "i");
   const email_search_regex = new RegExp("^" + escape(searchKey) + "$", "i");
