@@ -5,6 +5,7 @@ const {
   addProduct,
   updateProduct,
   getSingleProduct,
+  getProductName,
 } = require("../controllers/productController");
 const { checkLogin } = require("../middlewares/common/checkLogin");
 const imageUpload = require("../middlewares/products/imageUpload");
@@ -17,6 +18,9 @@ router.get("/get", getProducts);
 
 // get single product
 router.get("/get/:id", getSingleProduct);
+
+// get product name
+router.get("/productName", getProductName);
 
 // add product
 router.post("/post", imageUpload, addProduct);

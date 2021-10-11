@@ -31,6 +31,22 @@ async function getSingleProduct(req, res, next) {
   }
 }
 
+// get product name
+async function getProductName(req, res, next) {
+  try {
+    const result = await Product.find({});
+    const productName = result.map((product) => {
+      const { title, ...rest } = product._doc;
+      return title;
+    });
+    res.status(200).json(productName);
+  } catch (err) {
+    res.status(500).json({
+      error: "Internal Server Error!",
+    });
+  }
+}
+
 // add products
 async function addProduct(req, res, next) {
   let newProduct;
@@ -104,4 +120,5 @@ module.exports = {
   addProduct,
   updateProduct,
   getSingleProduct,
+  getProductName,
 };
