@@ -8,7 +8,7 @@ async function getAllOfferProduct(req, res, next) {
   try {
     const result = await SpecialOffer.find({}).sort({ createdAt: -1 });
     if (result) {
-      const offerProduct = result.map((res) => {
+      const offerProduct = result.filter((res) => {
         const newDate = new Date().getTime();
         const dbEndingDate = res?.endingDateMiliSecond;
         if (newDate < dbEndingDate) {
