@@ -5,6 +5,7 @@ const {
   addOrder,
   orderInfo,
   orderStatus,
+  getTotalEarning,
 } = require("../controllers/orderController");
 
 // internal imports
@@ -21,5 +22,8 @@ router.post("/info", orderInfo);
 
 // update order status
 router.put("/update/:id", orderStatus);
+
+// get total earning
+router.get("/totalEarning", getTotalEarning);
 
 module.exports = router;

@@ -68,9 +68,28 @@ async function orderStatus(req, res, next) {
   }
 }
 
+// total earning
+async function getTotalEarning(req, res, next) {
+  try {
+    const order = await Order.find({});
+    const price = order.map((price) => {
+      return price.product.price;
+    });
+    const result = price.reduce(
+      (previousValue, currentValue) => previousValue + currentValue
+    );
+    res.status(200).json(result);
+  } catch (err) {
+    res.status(500).json({
+      error: "Internal Server Error!",
+    });
+  }
+}
+
 module.exports = {
   getOrders,
   addOrder,
   orderInfo,
   orderStatus,
+  getTotalEarning,
 };
