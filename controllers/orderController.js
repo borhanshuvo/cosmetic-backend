@@ -86,10 +86,98 @@ async function getTotalEarning(req, res, next) {
   }
 }
 
+function dateFormater(year, firstMonth, nextMonth) {
+  const startDate = new Date();
+  startDate.setDate(1);
+  startDate.setMonth(nextMonth);
+  startDate.setFullYear(year);
+  startDate.setHours(23, 59, 59);
+  const lastDate = new Date();
+  lastDate.setDate(1);
+  lastDate.setMonth(firstMonth);
+  lastDate.setFullYear(year);
+  lastDate.setHours(00, 00, 00);
+  return { startDate, lastDate };
+}
+
+async function monthlyIncome(startDate, lastDate) {
+  const month = await Order.find({
+    createdAt: {
+      $gte: new Date(lastDate.getTime()),
+      $lt: new Date(startDate.getTime()),
+    },
+  });
+  const price = month.reduce((sum, value) => sum + value.product.price, 0);
+  return price;
+}
+
+// statistics value
+async function getStatisticsValue(req, res, next) {
+  try {
+    const year = parseInt(req.params.year);
+
+    const january = dateFormater(year, 0, 1);
+    const jan = await monthlyIncome(january.startDate, january.lastDate);
+
+    const february = dateFormater(year, 1, 2);
+    const feb = await monthlyIncome(february.startDate, february.lastDate);
+
+    const march = dateFormater(year, 2, 3);
+    const mar = await monthlyIncome(march.startDate, march.lastDate);
+
+    const april = dateFormater(year, 3, 4);
+    const apr = await monthlyIncome(april.startDate, april.lastDate);
+
+    const mays = dateFormater(year, 4, 5);
+    const may = await monthlyIncome(mays.startDate, mays.lastDate);
+
+    const june = dateFormater(year, 5, 6);
+    const jun = await monthlyIncome(june.startDate, june.lastDate);
+
+    const july = dateFormater(year, 6, 7);
+    const jul = await monthlyIncome(july.startDate, july.lastDate);
+
+    const august = dateFormater(year, 7, 8);
+    const aug = await monthlyIncome(august.startDate, august.lastDate);
+
+    const september = dateFormater(year, 8, 9);
+    const sep = await monthlyIncome(september.startDate, september.lastDate);
+
+    const octobor = dateFormater(year, 9, 10);
+    const oct = await monthlyIncome(octobor.startDate, octobor.lastDate);
+
+    const november = dateFormater(year, 10, 11);
+    const nov = await monthlyIncome(november.startDate, november.lastDate);
+
+    const december = dateFormater(year, 11, 0);
+    const dec = await monthlyIncome(december.startDate, december.lastDate);
+
+    res.status(200).json({
+      jan,
+      feb,
+      mar,
+      apr,
+      may,
+      jun,
+      jul,
+      aug,
+      sep,
+      oct,
+      nov,
+      dec,
+    });
+  } catch (err) {
+    res.status(500).json({
+      error: "Internal Server Error!",
+    });
+  }
+}
+
 module.exports = {
   getOrders,
   addOrder,
   orderInfo,
   orderStatus,
   getTotalEarning,
+  getStatisticsValue,
 };

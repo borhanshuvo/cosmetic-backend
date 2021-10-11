@@ -6,6 +6,7 @@ const {
   orderInfo,
   orderStatus,
   getTotalEarning,
+  getStatisticsValue,
 } = require("../controllers/orderController");
 
 // internal imports
@@ -25,5 +26,8 @@ router.put("/update/:id", orderStatus);
 
 // get total earning
 router.get("/totalEarning", getTotalEarning);
+
+// get yearly statistics value
+router.get("/statistics/:year", getStatisticsValue);
 
 module.exports = router;
