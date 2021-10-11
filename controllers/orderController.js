@@ -78,7 +78,7 @@ async function getTotalEarning(req, res, next) {
     const result = price.reduce(
       (previousValue, currentValue) => previousValue + currentValue
     );
-    res.status(200).json(result);
+    res.status(200).json({ result, order });
   } catch (err) {
     res.status(500).json({
       error: "Internal Server Error!",
