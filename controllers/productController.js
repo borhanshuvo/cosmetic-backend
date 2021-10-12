@@ -9,7 +9,7 @@ const User = require("../models/User");
 // get products
 async function getProducts(req, res, next) {
   try {
-    const products = await Product.find({});
+    const products = await Product.find({}).sort({ createdAt: -1 });
     res.status(200).json(products);
   } catch (err) {
     res.status(500).json({
