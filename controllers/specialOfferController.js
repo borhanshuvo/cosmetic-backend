@@ -6,7 +6,7 @@ const moment = require("moment");
 // get all special offer product
 async function getAllOfferProduct(req, res, next) {
   try {
-    const result = await SpecialOffer.find({}).sort({ endingDate: -1 });
+    const result = await SpecialOffer.find({}).sort({ endingDate: 1 });
     if (result) {
       const offerProduct = result.filter((res) => {
         const newDate = new Date().getTime();
