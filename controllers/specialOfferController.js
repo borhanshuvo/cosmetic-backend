@@ -28,6 +28,19 @@ async function getAllOfferProduct(req, res, next) {
   }
 }
 
+// get single offer products
+async function getSingleOfferProduct(req, res, next) {
+  try {
+    const id = req.params.id;
+    const offerProduct = await SpecialOffer.findOne({ _id: id });
+    res.status(200).json(offerProduct);
+  } catch (err) {
+    res.status(500).json({
+      error: "Internal Server Error!",
+    });
+  }
+}
+
 // add special offer product
 async function addOfferProduct(req, res, next) {
   try {
@@ -88,4 +101,5 @@ async function addOfferProduct(req, res, next) {
 module.exports = {
   getAllOfferProduct,
   addOfferProduct,
+  getSingleOfferProduct,
 };
