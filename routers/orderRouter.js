@@ -8,26 +8,27 @@ const {
   getTotalEarning,
   getStatisticsValue,
 } = require("../controllers/orderController");
+const { checkLogin } = require("../middlewares/common/checkLogin");
 
 // internal imports
 const router = express.Router();
 
 // get order info
-router.get("/get", getOrders);
+router.get("/get", checkLogin, getOrders);
 
 // add order info
-router.post("/post", addOrder);
+router.post("/post", checkLogin, addOrder);
 
 // get order by user email
-router.post("/info", orderInfo);
+router.post("/info", checkLogin, orderInfo);
 
 // update order status
-router.put("/update/:id", orderStatus);
+router.put("/update/:id", checkLogin, orderStatus);
 
 // get total earning
-router.get("/totalEarning", getTotalEarning);
+router.get("/totalEarning", checkLogin, getTotalEarning);
 
 // get yearly statistics value
-router.get("/statistics/:year", getStatisticsValue);
+router.get("/statistics/:year", checkLogin, getStatisticsValue);
 
 module.exports = router;

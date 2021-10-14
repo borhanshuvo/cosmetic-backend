@@ -23,10 +23,10 @@ const {
 const router = express.Router();
 
 // get user
-router.get("/get", getUsers);
+router.get("/get", checkLogin, getUsers);
 
 // get user by id
-router.get("/get/:id", singleUser);
+router.get("/get/:id", checkLogin, singleUser);
 
 // add user
 router.post(
@@ -50,12 +50,12 @@ router.put("/checkVerificationCode", checkVerificationCode);
 router.put("/changePassword", changePassword);
 
 // remove notification
-router.delete("/deleteNotification/:id", deleteNotification);
+router.delete("/deleteNotification/:id", checkLogin, deleteNotification);
 
 // search user
-router.post("/search", searchUser);
+router.post("/search", checkLogin, searchUser);
 
 // get user notification
-router.post("/getUserNotification", getUserNotification);
+router.post("/getUserNotification", checkLogin, getUserNotification);
 
 module.exports = router;

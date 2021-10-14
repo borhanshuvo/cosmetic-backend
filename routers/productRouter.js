@@ -14,18 +14,18 @@ const imageUpload = require("../middlewares/products/imageUpload");
 const router = express.Router();
 
 // get product
-router.get("/get", getProducts);
+router.get("/get", checkLogin, getProducts);
 
 // get single product
-router.get("/get/:id", getSingleProduct);
+router.get("/get/:id", checkLogin, getSingleProduct);
 
 // get product name
-router.get("/productName", getProductName);
+router.get("/productName", checkLogin, getProductName);
 
 // add product
-router.post("/post", imageUpload, addProduct);
+router.post("/post", checkLogin, imageUpload, addProduct);
 
 // update product
-router.put("/update/:id", imageUpload, updateProduct);
+router.put("/update/:id", checkLogin, imageUpload, updateProduct);
 
 module.exports = router;

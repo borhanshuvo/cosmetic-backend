@@ -11,12 +11,12 @@ const { checkLogin } = require("../middlewares/common/checkLogin");
 const router = express.Router();
 
 // get category
-router.get("/get", getCategory);
+router.get("/get", checkLogin,  getCategory);
 
 // get category name
-router.get("/categoryName", getCategoryName);
+router.get("/categoryName", checkLogin, getCategoryName);
 
 // post category
-router.post("/post", addCategory);
+router.post("/post", checkLogin, addCategory);
 
 module.exports = router;
