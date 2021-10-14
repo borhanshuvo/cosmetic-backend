@@ -33,7 +33,7 @@ async function addOrder(req, res, next) {
 async function orderInfo(req, res, next) {
   try {
     const email = req.body.email;
-    const orderInfo = await Order.find({ email: email });
+    const orderInfo = await Order.find({ email: email }).sort({ createdAt: -1 });
     res.status(200).json(orderInfo);
   } catch (err) {
     res.status(500).json({
