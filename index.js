@@ -15,6 +15,7 @@ const productRoute = require("./routers/productRouter");
 const categoryRoute = require("./routers/categoryRouter");
 const orderRoute = require("./routers/orderRouter");
 const bidRequestRoute = require("./routers/bidRequestRouter");
+const premiumBidRequestRoute = require("./routers/premiumBidRequestRouter");
 const specialOfferRoute = require("./routers/specialOfferRouter");
 
 // Database connection
@@ -45,6 +46,7 @@ app.use("/product", productRoute);
 app.use("/category", categoryRoute);
 app.use("/order", orderRoute);
 app.use("/bidRequest", bidRequestRoute);
+app.use("/premiumBidRequest", premiumBidRequestRoute);
 app.use("/specialOffer", specialOfferRoute);
 
 app.listen(process.env.PORT, () => {
