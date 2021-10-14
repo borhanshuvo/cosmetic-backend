@@ -101,25 +101,27 @@ async function addOfferProduct(req, res, next) {
 // update offer product
 async function updateOfferProduct(req, res, next) {
   const id = req.params.id;
-  const product = await SpecialOffer.find({ _id: id });
+  // const product = await SpecialOffer.find({ _id: id });
   if (req.files && req.files.length > 0) {
     // remove product image from directory
-    if (product[0].product.img !== "") {
-      unlink(
-        path.join(__dirname, `/../public/uploads/products/${product[0].product.img}`),
-        (err) => {
-          if (err) {
-            console.log(err);
-          }
-        }
-      );
-    }
+    // if (product[0].product.img !== "") {
+    //   unlink(
+    //     path.join(__dirname, `/../public/uploads/products/${product[0].product.img}`),
+    //     (err) => {
+    //       if (err) {
+    //         console.log(err);
+    //       }
+    //     }
+    //   );
+    // }
     req.body.img = `${req.files[0].filename}`;
     req.body.imgURL = `/uploads/products/${req.files[0].filename}`;
   }
   // save product
   try {
-    const result = await SpecialOffer.findByIdAndUpdate(id, req.body, { new: true });
+    const result = await SpecialOffer.findByIdAndUpdate(id, req.body, {
+      new: true,
+    });
     res.status(200).json(result);
   } catch (err) {
     res.status(500).json({
