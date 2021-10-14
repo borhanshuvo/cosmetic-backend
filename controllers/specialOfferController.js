@@ -114,8 +114,8 @@ async function updateOfferProduct(req, res, next) {
     //     }
     //   );
     // }
-    req.body.img = `${req.files[0].filename}`;
-    req.body.imgURL = `/uploads/products/${req.files[0].filename}`;
+    req.body.product.img = `${req.files[0].filename}`;
+    req.body.product.imgURL = `/uploads/products/${req.files[0].filename}`;
   }
   // save product
   try {
