@@ -101,21 +101,14 @@ async function addOfferProduct(req, res, next) {
 // update offer product
 async function updateOfferProduct(req, res, next) {
   const id = req.params.id;
-  // const product = await SpecialOffer.find({ _id: id });
   if (req.files && req.files.length > 0) {
-    // remove product image from directory
-    // if (product[0].product.img !== "") {
-    //   unlink(
-    //     path.join(__dirname, `/../public/uploads/products/${product[0].product.img}`),
-    //     (err) => {
-    //       if (err) {
-    //         console.log(err);
-    //       }
-    //     }
-    //   );
-    // }
-    req.body.product.img = `${req.files[0].filename}`;
-    req.body.product.imgURL = `/uploads/products/${req.files[0].filename}`;
+    req.body = {
+      product: {
+        ...req.body,
+        img: `${req.files[0].filename}`,
+        imgURL: `/uploads/products/${req.files[0].filename}`,
+      },
+    };
   }
   // save product
   try {

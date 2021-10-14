@@ -88,19 +88,19 @@ async function addProduct(req, res, next) {
 // update product
 async function updateProduct(req, res, next) {
   const id = req.params.id;
-  const product = await Product.find({ _id: id });
+  // const product = await Product.find({ _id: id });
   if (req.files && req.files.length > 0) {
     // remove product image from directory
-    if (product[0].img !== "") {
-      unlink(
-        path.join(__dirname, `/../public/uploads/products/${product[0].img}`),
-        (err) => {
-          if (err) {
-            console.log(err);
-          }
-        }
-      );
-    }
+    // if (product[0].img !== "") {
+    //   unlink(
+    //     path.join(__dirname, `/../public/uploads/products/${product[0].img}`),
+    //     (err) => {
+    //       if (err) {
+    //         console.log(err);
+    //       }
+    //     }
+    //   );
+    // }
     req.body.img = `${req.files[0].filename}`;
     req.body.imgURL = `/uploads/products/${req.files[0].filename}`;
   }
