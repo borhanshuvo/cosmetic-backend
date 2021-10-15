@@ -27,7 +27,7 @@ const router = express.Router();
 router.get("/get", checkLogin, getUsers);
 
 // get admins
-router.get("/get", checkLogin, getAdmins);
+router.get("/get/admin", checkLogin, getAdmins);
 
 // get user by id
 router.get("/get/:id", checkLogin, singleUser);
