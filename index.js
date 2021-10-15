@@ -17,6 +17,7 @@ const orderRoute = require("./routers/orderRouter");
 const bidRequestRoute = require("./routers/bidRequestRouter");
 const premiumBidRequestRoute = require("./routers/premiumBidRequestRouter");
 const specialOfferRoute = require("./routers/specialOfferRouter");
+const saveNotificationRoute = require("./routers/saveNotificationRouter");
 
 // Database connection
 mongoose
@@ -48,6 +49,7 @@ app.use("/order", orderRoute);
 app.use("/bidRequest", bidRequestRoute);
 app.use("/premiumBidRequest", premiumBidRequestRoute);
 app.use("/specialOffer", specialOfferRoute);
+app.use("/saveNotification", saveNotificationRoute);
 
 app.listen(process.env.PORT, () => {
   console.log(`app listening at ${process.env.PORT}`);
