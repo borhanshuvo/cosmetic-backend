@@ -3,6 +3,10 @@ const mongoose = require("mongoose");
 
 const saveNotificationSchema = mongoose.Schema(
   {
+    notifyId: {
+      type: mongoose.Types.ObjectId,
+      required: true,
+    },
     name: {
       type: String,
       required: true,
