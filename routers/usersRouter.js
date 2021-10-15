@@ -11,6 +11,7 @@ const {
   searchUser,
   getUserNotification,
   singleUser,
+  getAdmins,
 } = require("../controllers/usersController");
 const { checkLogin } = require("../middlewares/common/checkLogin");
 const avatarUpload = require("../middlewares/users/avatarUpload");
@@ -22,8 +23,11 @@ const {
 // internal imports
 const router = express.Router();
 
-// get user
+// get users
 router.get("/get", checkLogin, getUsers);
+
+// get admins
+router.get("/get", checkLogin, getAdmins);
 
 // get user by id
 router.get("/get/:id", checkLogin, singleUser);

@@ -27,6 +27,22 @@ async function getUsers(req, res, next) {
   }
 }
 
+// get admins
+async function getAdmins(req, res, next) {
+  try {
+    const result = await User.find({ role: "admin" });
+    const users = result.map((user) => {
+      const { password, ...rest } = user._doc;
+      return rest;
+    });
+    res.status(200).json(users);
+  } catch (err) {
+    res.status(500).json({
+      error: "Internal Server Error!",
+    });
+  }
+}
+
 // get user by id
 async function singleUser(req, res, next) {
   try {
@@ -296,6 +312,7 @@ async function searchUser(req, res, next) {
 
 module.exports = {
   getUsers,
+  getAdmins,
   addUser,
   updateUser,
   resetPasswordMail,
