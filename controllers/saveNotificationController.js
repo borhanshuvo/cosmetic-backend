@@ -21,11 +21,21 @@ async function getSaveNotification(req, res, next) {
 // add save notification
 async function addSaveNotification(req, res, next) {
   try {
-    const saveNotification = new SaveNotification(req.body);
-    const result = await saveNotification.save();
-    res.status(200).json({
-      success: "Save Notification was added successfully!",
+    const notifyId = req.body.notifyId;
+    const findNotification = await SaveNotification.find({
+      notifyId: notifyId,
     });
+    if (findNotification) {
+      res.status(200).json({
+        error: "Notification was already added!",
+      });
+    } else {
+      const saveNotification = new SaveNotification(req.body);
+      const result = await saveNotification.save();
+      res.status(200).json({
+        success: "Save Notification was added successfully!",
+      });
+    }
   } catch (err) {
     res.status(500).json({
       error: "Internal Server Error!",
