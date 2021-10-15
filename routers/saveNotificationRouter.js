@@ -10,7 +10,7 @@ const { checkLogin } = require("../middlewares/common/checkLogin");
 const router = express.Router();
 
 // get save notification
-router.get("/get", checkLogin, getSaveNotification);
+router.get("/get/:email", checkLogin, getSaveNotification);
 
 // post save notification
 router.post("/post", checkLogin, addSaveNotification);

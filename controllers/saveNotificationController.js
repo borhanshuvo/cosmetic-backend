@@ -4,9 +4,12 @@ const SaveNotification = require("../models/SaveNotification");
 // get save notification
 async function getSaveNotification(req, res, next) {
   try {
-    const saveNotification = await SaveNotification.find({}).sort({
-      createdAt: -1,
-    });
+    const email = req.params.email;
+    const saveNotification = await SaveNotification.find({ email: email }).sort(
+      {
+        createdAt: -1,
+      }
+    );
     res.status(200).json(saveNotification);
   } catch (err) {
     res.status(500).json({
