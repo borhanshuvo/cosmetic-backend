@@ -25,7 +25,7 @@ async function addSaveNotification(req, res, next) {
     const findNotification = await SaveNotification.find({
       notifyId: notifyId,
     });
-    if (findNotification) {
+    if (findNotification.length > 0) {
       res.status(200).json({
         error: "Notification was already added!",
       });
