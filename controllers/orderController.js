@@ -43,6 +43,7 @@ async function addOrder(req, res, next) {
 
 // payment info
 async function addPaymentInfo(req, res, next) {
+  const name
   const create_payment_json = {
     intent: "sale",
     payer: {
@@ -109,8 +110,7 @@ async function successPayment(req, res, next) {
         console.log(error.response);
         throw error;
       } else {
-        console.log("Get Payment Response");
-        console.log(JSON.stringify(payment));
+        res.status(200).json(payment);
         res.render("success");
       }
     }
