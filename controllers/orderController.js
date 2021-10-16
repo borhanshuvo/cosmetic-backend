@@ -43,9 +43,10 @@ async function addOrder(req, res, next) {
 
 // payment info
 async function addPaymentInfo(req, res, next) {
-  const { title, description } = req.body;
-  const fuck = req.body.price;
-  const quantity = parseInt(req.body.quantity);
+  const title = req.body.title || "title";
+  const description = req.body.description || "res";
+  const fuck = req.body.price || "12";
+  const quantity = parseInt(req.body.quantity || "1");
   const create_payment_json = {
     intent: "sale",
     payer: {
