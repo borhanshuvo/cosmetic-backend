@@ -25,7 +25,7 @@ router.get("/success", successPayment);
 router.get("/cancel", cancelPayment);
 
 // add order info
-router.post("/post", checkLogin, addOrder);
+router.post("/post", addOrder);
 
 // get order by user email
 router.post("/info", checkLogin, orderInfo);

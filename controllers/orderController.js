@@ -35,8 +35,8 @@ async function addOrder(req, res, next) {
         payment_method: "paypal",
       },
       redirect_urls: {
-        return_url: `${process.env.URL}/success`,
-        cancel_url: `${process.env.URL}/cancel`,
+        return_url: `${process.env.URL}/order/success`,
+        cancel_url: `${process.env.URL}/order/cancel`,
       },
       transactions: [
         {
