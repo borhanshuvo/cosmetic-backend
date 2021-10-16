@@ -58,7 +58,7 @@ async function addPaymentInfo(req, res, next) {
         item_list: {
           items: [
             {
-              name: 'title',
+              name: title,
               sku: 'description',
               price: '1',
               currency: "USD",
