@@ -9,6 +9,7 @@ const {
   getStatisticsValue,
   successPayment,
   cancelPayment,
+  addPaymentInfo,
 } = require("../controllers/orderController");
 const { checkLogin } = require("../middlewares/common/checkLogin");
 
@@ -18,6 +19,9 @@ const router = express.Router();
 // get order info
 router.get("/get", checkLogin, getOrders);
 
+// payment info
+router.post("/payment", addPaymentInfo);
+
 // payment success
 router.get("/success", successPayment);
 
@@ -25,7 +29,7 @@ router.get("/success", successPayment);
 router.get("/cancel", cancelPayment);
 
 // add order info
-router.post("/post", addOrder);
+router.post("/post", checkLogin, addOrder);
 
 // get order by user email
 router.post("/info", checkLogin, orderInfo);

@@ -29,47 +29,6 @@ async function getOrders(req, res, next) {
 // add order
 async function addOrder(req, res, next) {
   try {
-    const create_payment_json = {
-      intent: "sale",
-      payer: {
-        payment_method: "paypal",
-      },
-      redirect_urls: {
-        return_url: `${process.env.URL}/order/success`,
-        cancel_url: `${process.env.URL}/order/cancel`,
-      },
-      transactions: [
-        {
-          item_list: {
-            items: [
-              {
-                name: "item",
-                sku: "item",
-                price: "1.00",
-                currency: "USD",
-                quantity: 1,
-              },
-            ],
-          },
-          amount: {
-            currency: "USD",
-            total: "1.00",
-          },
-          description: "This is the payment description.",
-        },
-      ],
-    };
-
-    paypal.payment.create(create_payment_json, function (error, payment) {
-      if (error) {
-        throw error;
-      } else {
-        console.log("Create Payment Response");
-        console.log(payment);
-        res.redirect(payment.links[1].href);
-      }
-    });
-
     const order = new Order(req.body);
     const result = order.save();
     res.status(200).json({
@@ -80,6 +39,50 @@ async function addOrder(req, res, next) {
       error: "Internal Server Error!",
     });
   }
+}
+
+// payment info
+async function addPaymentInfo(req, res, next) {
+  const create_payment_json = {
+    intent: "sale",
+    payer: {
+      payment_method: "paypal",
+    },
+    redirect_urls: {
+      return_url: `${process.env.URL}/order/success`,
+      cancel_url: `${process.env.URL}/order/cancel`,
+    },
+    transactions: [
+      {
+        item_list: {
+          items: [
+            {
+              name: "item",
+              sku: "item",
+              price: "1.00",
+              currency: "USD",
+              quantity: 1,
+            },
+          ],
+        },
+        amount: {
+          currency: "USD",
+          total: "1.00",
+        },
+        description: "This is the payment description.",
+      },
+    ],
+  };
+
+  paypal.payment.create(create_payment_json, function (error, payment) {
+    if (error) {
+      throw error;
+    } else {
+      console.log("Create Payment Response");
+      console.log(payment);
+      res.redirect(payment.links[1].href);
+    }
+  });
 }
 
 // success payment
@@ -276,6 +279,7 @@ module.exports = {
   orderStatus,
   getTotalEarning,
   getStatisticsValue,
+  addPaymentInfo,
   successPayment,
   cancelPayment,
 };
