@@ -73,7 +73,7 @@ async function addPaymentInfo(req, res, next) {
           currency: "USD",
           total: fuck,
         },
-        description: "This is the payment description.",
+        description: "This is the payment descrption.",
       },
     ],
   };
