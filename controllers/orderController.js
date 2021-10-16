@@ -43,13 +43,14 @@ async function addOrder(req, res, next) {
 
 // payment info
 async function addPaymentInfo(req, res, next) {
+  const { title, description, price, quantity } = req.body;
   const create_payment_json = {
     intent: "sale",
     payer: {
       payment_method: "paypal",
     },
     redirect_urls: {
-      return_url: `${process.env.URL}/order/success`,
+      return_url: `${process.env.URL}/order/success?price=${price}`,
       cancel_url: `${process.env.URL}/order/cancel`,
     },
     transactions: [
@@ -57,17 +58,17 @@ async function addPaymentInfo(req, res, next) {
         item_list: {
           items: [
             {
-              name: "item",
-              sku: "item",
-              price: "1.00",
+              name: title,
+              sku: description,
+              price: price,
               currency: "USD",
-              quantity: 1,
+              quantity: quantity,
             },
           ],
         },
         amount: {
           currency: "USD",
-          total: "1.00",
+          total: price,
         },
         description: "This is the payment description.",
       },
@@ -89,13 +90,14 @@ async function addPaymentInfo(req, res, next) {
 async function successPayment(req, res, next) {
   var PayerID = req.query.PayerID;
   var paymentId = req.query.paymentId;
+  const price = req.query.price;
   var execute_payment_json = {
     payer_id: PayerID,
     transactions: [
       {
         amount: {
           currency: "USD",
-          total: "1.00",
+          total: price,
         },
       },
     ],
@@ -111,7 +113,7 @@ async function successPayment(req, res, next) {
       } else {
         console.log("Get Payment Response");
         console.log(JSON.stringify(payment));
-        res.render("success");
+        res.render("success", { payment });
       }
     }
   );
