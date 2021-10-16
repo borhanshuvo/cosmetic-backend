@@ -43,6 +43,7 @@ async function addOrder(req, res, next) {
 
 // payment info
 async function addPaymentInfo(req, res, next) {
+  res.status(200).json(req.body);
   const title = req.body.title || "title";
   const description = req.body.description || "res";
   const fuck = req.body.price || "12";
