@@ -113,7 +113,7 @@ async function successPayment(req, res, next) {
       } else {
         console.log("Get Payment Response");
         console.log(JSON.stringify(payment));
-        res.render("success", { payment });
+        res.render("success");
       }
     }
   );
