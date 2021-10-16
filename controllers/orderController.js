@@ -43,17 +43,13 @@ async function addOrder(req, res, next) {
 
 // payment info
 async function addPaymentInfo(req, res, next) {
-  const title = req.body.title;
-  const description = req.body.description;
-  const quantity = req.body.quantity;
-  const price = req.body.price;
   const create_payment_json = {
     intent: "sale",
     payer: {
       payment_method: "paypal",
     },
     redirect_urls: {
-      return_url: `${process.env.URL}/order/success?price=${price}`,
+      return_url: `${process.env.URL}/order/success`,
       cancel_url: `${process.env.URL}/order/cancel`,
     },
     transactions: [
@@ -61,17 +57,17 @@ async function addPaymentInfo(req, res, next) {
         item_list: {
           items: [
             {
-              name: title,
-              sku: description,
-              price: price,
+              name: "item",
+              sku: "item",
+              price: "1.00",
               currency: "USD",
-              quantity: quantity,
+              quantity: 1,
             },
           ],
         },
         amount: {
           currency: "USD",
-          total: price,
+          total: "1.00",
         },
         description: "This is the payment description.",
       },
@@ -93,14 +89,13 @@ async function addPaymentInfo(req, res, next) {
 async function successPayment(req, res, next) {
   var PayerID = req.query.PayerID;
   var paymentId = req.query.paymentId;
-  const price = req.query.price;
   var execute_payment_json = {
     payer_id: PayerID,
     transactions: [
       {
         amount: {
           currency: "USD",
-          total: price,
+          total: "1.00",
         },
       },
     ],
@@ -111,10 +106,12 @@ async function successPayment(req, res, next) {
     execute_payment_json,
     function (error, payment) {
       if (error) {
+        console.log(error.response);
         throw error;
       } else {
-        res.status(200).json(payment);
-        res.render("success", { payment });
+        console.log("Get Payment Response");
+        console.log(JSON.stringify(payment));
+        res.render("success");
       }
     }
   );
