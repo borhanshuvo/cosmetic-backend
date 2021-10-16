@@ -1,3 +1,15 @@
+// external imports
+const paypal = require("paypal-rest-sdk");
+
+// paypal configure
+paypal.configure({
+  mode: "sandbox", //sandbox or live
+  client_id:
+    "AdpGQToWYQeZQlJjbYbCzylrcZUaFyF88nf1QQiRAfLznEV14qCYW1YtU6GVt1UYfmFBEpHw_Ts-oi9q",
+  client_secret:
+    "EOc4waCiK-ARTTXsJIqVcaV177Wb3NwMykkOYXSora0afBHPcEn_hNY-n1acr-8aDtPDrcjJC2yJBiTJ",
+});
+
 // internal imports
 const Order = require("../models/Order");
 const User = require("../models/User");
@@ -17,6 +29,47 @@ async function getOrders(req, res, next) {
 // add order
 async function addOrder(req, res, next) {
   try {
+    const create_payment_json = {
+      intent: "sale",
+      payer: {
+        payment_method: "paypal",
+      },
+      redirect_urls: {
+        return_url: `${process.env.URL}/success`,
+        cancel_url: `${process.env.URL}/cancel`,
+      },
+      transactions: [
+        {
+          item_list: {
+            items: [
+              {
+                name: "item",
+                sku: "item",
+                price: "1.00",
+                currency: "USD",
+                quantity: 1,
+              },
+            ],
+          },
+          amount: {
+            currency: "USD",
+            total: "1.00",
+          },
+          description: "This is the payment description.",
+        },
+      ],
+    };
+
+    paypal.payment.create(create_payment_json, function (error, payment) {
+      if (error) {
+        throw error;
+      } else {
+        console.log("Create Payment Response");
+        console.log(payment);
+        res.redirect(payment.links[1].href);
+      }
+    });
+
     const order = new Order(req.body);
     const result = order.save();
     res.status(200).json({
@@ -29,11 +82,50 @@ async function addOrder(req, res, next) {
   }
 }
 
+// success payment
+async function successPayment(req, res, next) {
+  var PayerID = req.query.PayerID;
+  var paymentId = req.query.paymentId;
+  var execute_payment_json = {
+    payer_id: PayerID,
+    transactions: [
+      {
+        amount: {
+          currency: "USD",
+          total: "1.00",
+        },
+      },
+    ],
+  };
+
+  paypal.payment.execute(
+    paymentId,
+    execute_payment_json,
+    function (error, payment) {
+      if (error) {
+        console.log(error.response);
+        throw error;
+      } else {
+        console.log("Get Payment Response");
+        console.log(JSON.stringify(payment));
+        res.render("success");
+      }
+    }
+  );
+}
+
+// cancel payment
+async function cancelPayment(req, res, next) {
+  res.render("cancel");
+}
+
 // get order by user email
 async function orderInfo(req, res, next) {
   try {
     const email = req.body.email;
-    const orderInfo = await Order.find({ email: email }).sort({ createdAt: -1 });
+    const orderInfo = await Order.find({ email: email }).sort({
+      createdAt: -1,
+    });
     res.status(200).json(orderInfo);
   } catch (err) {
     res.status(500).json({
@@ -184,4 +276,6 @@ module.exports = {
   orderStatus,
   getTotalEarning,
   getStatisticsValue,
+  successPayment,
+  cancelPayment,
 };

@@ -4,6 +4,7 @@ const dotenv = require("dotenv");
 const mongoose = require("mongoose");
 const path = require("path");
 const cors = require("cors");
+// const engines = require("consolidate");
 
 const app = express();
 dotenv.config();
@@ -32,6 +33,11 @@ mongoose
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
+
+// Set view engine
+// app.engine("ejs", engines.ejs);
+// app.set("views", "./views");
+app.set("view engine", "ejs");
 
 // Set static folder
 app.use(express.static(path.join(__dirname, "public")));

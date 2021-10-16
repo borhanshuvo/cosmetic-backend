@@ -7,6 +7,8 @@ const {
   orderStatus,
   getTotalEarning,
   getStatisticsValue,
+  successPayment,
+  cancelPayment,
 } = require("../controllers/orderController");
 const { checkLogin } = require("../middlewares/common/checkLogin");
 
@@ -15,6 +17,12 @@ const router = express.Router();
 
 // get order info
 router.get("/get", checkLogin, getOrders);
+
+// payment success
+router.get("/success", successPayment);
+
+// payment cancel
+router.get("/cancel", cancelPayment);
 
 // add order info
 router.post("/post", checkLogin, addOrder);
