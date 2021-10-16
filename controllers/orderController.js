@@ -50,7 +50,7 @@ async function addPaymentInfo(req, res, next) {
       payment_method: "paypal",
     },
     redirect_urls: {
-      return_url: `${process.env.URL}/order/success`,
+      return_url: `${process.env.URL}/order/success?price=${price}`,
       cancel_url: `${process.env.URL}/order/cancel`,
     },
     transactions: [
@@ -90,13 +90,14 @@ async function addPaymentInfo(req, res, next) {
 async function successPayment(req, res, next) {
   var PayerID = req.query.PayerID;
   var paymentId = req.query.paymentId;
+  const price = req.query.price;
   var execute_payment_json = {
     payer_id: PayerID,
     transactions: [
       {
         amount: {
           currency: "USD",
-          total: "1.00",
+          total: price,
         },
       },
     ],
