@@ -4,7 +4,7 @@ function imageUpload(req, res, next) {
   const upload = uploader(
     "products",
     ["image/jpeg", "image/png", "image/jpg"],
-    1000000,
+    10000000,
     "Only .jpg, jpeg and .png format allowed!"
   );
 
