@@ -10,6 +10,7 @@ const moment = require("moment");
 const User = require("../models/User");
 const Order = require("../models/Order");
 const escape = require("../utilities/escape");
+const Conversation = require("../models/Conversation");
 
 // get users
 async function getUsers(req, res, next) {
@@ -90,6 +91,22 @@ async function addUser(req, res, next) {
   try {
     const result = await newUser.save();
     if (result) {
+      const adminInfo = await User.findOne({ role: "admin" });
+      const conversationObj = {
+        creator: {
+          id: adminInfo?._id,
+          name: adminInfo?.name,
+          image: adminInfo?.imgURL,
+        },
+        participant: {
+          id: result?._id,
+          name: result?.name,
+          image: result?.imgURL,
+        },
+      };
+      const conversation = new Conversation(conversationObj);
+      await conversation.save();
+      
       res.status(200).json({
         success: "User was added successfully!",
       });
