@@ -43,17 +43,19 @@ async function addOrder(req, res, next) {
 
 // payment info
 async function addPaymentInfo(req, res, next) {
-  const title = req.body.title || "title";
-  const description = req.body.description || "res";
-  const fuck = req.body.price || "12";
-  const quantity = parseInt(req.body.quantity || "1");
+  const title = req.body.title;
+  const description = req.body.description;
+  const price = req.body.price;
+  const quantity = req.body.quantity;
+  const totalAmount = req.body.totalAmount;
+
   const create_payment_json = {
     intent: "sale",
     payer: {
       payment_method: "paypal",
     },
     redirect_urls: {
-      return_url: `${process.env.URL}/order/success`,
+      return_url: `${process.env.URL}/order/success?totalAmount=${totalAmount}`,
       cancel_url: `${process.env.URL}/order/cancel`,
     },
     transactions: [
@@ -63,7 +65,7 @@ async function addPaymentInfo(req, res, next) {
             {
               name: title,
               sku: description,
-              price: fuck,
+              price: price,
               currency: "USD",
               quantity: quantity,
             },
@@ -71,9 +73,9 @@ async function addPaymentInfo(req, res, next) {
         },
         amount: {
           currency: "USD",
-          total: fuck,
+          total: totalAmount,
         },
-        description: "This is the payment descrption.",
+        description: "This is the payment description.",
       },
     ],
   };
@@ -82,8 +84,6 @@ async function addPaymentInfo(req, res, next) {
     if (error) {
       throw error;
     } else {
-      console.log("Create Payment Response");
-      console.log(payment);
       res.redirect(payment.links[1].href);
     }
   });
@@ -93,13 +93,14 @@ async function addPaymentInfo(req, res, next) {
 async function successPayment(req, res, next) {
   var PayerID = req.query.PayerID;
   var paymentId = req.query.paymentId;
+  var totalAmount = req.query.totalAmount;
   var execute_payment_json = {
     payer_id: PayerID,
     transactions: [
       {
         amount: {
           currency: "USD",
-          total: "1.00",
+          total: totalAmount,
         },
       },
     ],
@@ -110,11 +111,8 @@ async function successPayment(req, res, next) {
     execute_payment_json,
     function (error, payment) {
       if (error) {
-        console.log(error.response);
         throw error;
       } else {
-        console.log("Get Payment Response");
-        console.log(JSON.stringify(payment));
         res.render("success");
       }
     }
