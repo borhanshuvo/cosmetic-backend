@@ -96,11 +96,13 @@ async function addUser(req, res, next) {
         creator: {
           id: adminInfo?._id,
           name: adminInfo?.name,
+          email: adminInfo?.email,
           image: adminInfo?.imgURL,
         },
         participant: {
           id: result?._id,
           name: result?.name,
+          email: result?.email,
           image: result?.imgURL,
         },
       };
