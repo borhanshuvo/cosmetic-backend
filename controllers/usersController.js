@@ -108,7 +108,7 @@ async function addUser(req, res, next) {
       };
       const conversation = new Conversation(conversationObj);
       await conversation.save();
-      
+
       res.status(200).json({
         success: "User was added successfully!",
       });
@@ -129,17 +129,6 @@ async function updateUser(req, res, next) {
   const id = req.params.id;
   const user = await User.find({ _id: id });
   if (req.files && req.files.length > 0) {
-    // remove avatar from directory
-    if (user.avatar !== "") {
-      unlink(
-        path.join(__dirname, `/../public/uploads/avatars/${user[0].avatar}`),
-        (err) => {
-          if (err) {
-            console.log(err);
-          }
-        }
-      );
-    }
     req.body.avatar = `${req.files[0].filename}`;
     req.body.imgURL = `/uploads/avatars/${req.files[0].filename}`;
   }
