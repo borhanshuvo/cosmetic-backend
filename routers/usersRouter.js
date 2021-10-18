@@ -14,6 +14,10 @@ const {
   getAdmins,
 } = require("../controllers/usersController");
 const { checkLogin } = require("../middlewares/common/checkLogin");
+const {
+  addPassValidators,
+  addPassValidationHandler,
+} = require("../middlewares/forgetPassword/forgetPassValidator");
 const avatarUpload = require("../middlewares/users/avatarUpload");
 const {
   addUserValidationHandler,
@@ -51,7 +55,12 @@ router.put("/resetPasswordMail", resetPasswordMail);
 router.put("/checkVerificationCode", checkVerificationCode);
 
 // change password
-router.put("/changePassword", changePassword);
+router.put(
+  "/changePassword",
+  addPassValidators,
+  addPassValidationHandler,
+  changePassword
+);
 
 // remove notification
 router.delete("/deleteNotification/:id", checkLogin, deleteNotification);
