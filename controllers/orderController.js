@@ -4,10 +4,8 @@ const paypal = require("paypal-rest-sdk");
 // paypal configure
 paypal.configure({
   mode: "sandbox", //sandbox or live
-  client_id:
-    "AdpGQToWYQeZQlJjbYbCzylrcZUaFyF88nf1QQiRAfLznEV14qCYW1YtU6GVt1UYfmFBEpHw_Ts-oi9q",
-  client_secret:
-    "EOc4waCiK-ARTTXsJIqVcaV177Wb3NwMykkOYXSora0afBHPcEn_hNY-n1acr-8aDtPDrcjJC2yJBiTJ",
+  client_id: process.env.PAYPAL_CLIENT_PUBLIC,
+  client_secret: process.env.PAYPAL_CLIENT_SECRET,
 });
 
 // internal imports
