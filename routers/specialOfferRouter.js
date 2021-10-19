@@ -5,6 +5,7 @@ const {
   addOfferProduct,
   getSingleOfferProduct,
   updateOfferProduct,
+  deleteOfferProduct,
 } = require("../controllers/specialOfferController");
 const { checkLogin } = require("../middlewares/common/checkLogin");
 const imageUpload = require("../middlewares/products/imageUpload");
@@ -21,5 +22,8 @@ router.post("/post", checkLogin, addOfferProduct);
 
 // update offer product
 router.put("/update/:id", checkLogin, imageUpload, updateOfferProduct);
+
+// delete offer product
+router.delete("/delete/:id", checkLogin, deleteOfferProduct);
 
 module.exports = router;

@@ -115,10 +115,26 @@ async function updateProduct(req, res, next) {
   }
 }
 
+// delete product
+async function deleteProduct(req, res, next) {
+  try {
+    const id = req.params.id;
+    const product = await Product.findByIdAndDelete({
+      _id: id,
+    });
+    res.status(200).json(product);
+  } catch (err) {
+    res.status(500).json({
+      error: "Internal Server Error!",
+    });
+  }
+}
+
 module.exports = {
   getProducts,
   addProduct,
   updateProduct,
   getSingleProduct,
   getProductName,
+  deleteProduct,
 };

@@ -42,7 +42,6 @@ async function addOrder(req, res, next) {
 // payment info
 async function addPaymentInfo(req, res, next) {
   const title = req.body.title;
-  const description = req.body.description;
   const price = req.body.price;
   const quantity = req.body.quantity;
   const totalAmount = req.body.totalAmount;
@@ -62,7 +61,6 @@ async function addPaymentInfo(req, res, next) {
           items: [
             {
               name: title,
-              sku: description,
               price: price,
               currency: "USD",
               quantity: quantity,

@@ -6,6 +6,7 @@ const {
   updateProduct,
   getSingleProduct,
   getProductName,
+  deleteProduct,
 } = require("../controllers/productController");
 const { checkLogin } = require("../middlewares/common/checkLogin");
 const imageUpload = require("../middlewares/products/imageUpload");
@@ -27,5 +28,8 @@ router.post("/post", checkLogin, imageUpload, addProduct);
 
 // update product
 router.put("/update/:id", checkLogin, imageUpload, updateProduct);
+
+// delete product
+router.delete("/delete/:id", checkLogin, deleteProduct);
 
 module.exports = router;
