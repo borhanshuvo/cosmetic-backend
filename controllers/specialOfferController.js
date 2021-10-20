@@ -51,7 +51,12 @@ async function addOfferProduct(req, res, next) {
     const endDate = parseInt(req.body.endDate);
     const endMonth = parseInt(req.body.endMonth) - 1;
     const endYear = parseInt(req.body.endYear);
-
+    const startDateHour = parseInt(req.body.startDateHour);
+    const startDateMinute = parseInt(req.body.startDateMinute);
+    const startDateSecond = parseInt(req.body.startDateSecond);
+    const endDateSecond = parseInt(req.body.endDateSecond);
+    const endDateMinute = parseInt(req.body.endDateMinute);
+    const endDateHour = parseInt(req.body.endDateHour);
     const allProduct = await Product.find({});
     const product = allProduct[indexNumber];
 
@@ -60,6 +65,9 @@ async function addOfferProduct(req, res, next) {
     startingDate.setFullYear(endYear);
     startingDate.setMonth(startMonth);
     startingDate.setDate(startDate);
+    startingDate.setHours(startDateHour);
+    startingDate.setMinutes(startDateMinute);
+    startingDate.setSeconds(startDateSecond);
 
     const startingDateMiliSecond = startingDate.getTime();
 
@@ -68,6 +76,9 @@ async function addOfferProduct(req, res, next) {
     endingDate.setFullYear(startYear);
     endingDate.setMonth(endMonth);
     endingDate.setDate(endDate);
+    endingDate.setHours(endDateHour)
+    endingDate.setMinutes(endDateMinute);
+    endingDate.setSeconds(endDateSecond);
 
     const endingDateMiliSecond = endingDate.getTime();
 
