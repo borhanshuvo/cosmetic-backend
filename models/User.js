@@ -43,6 +43,10 @@ const userSchema = mongoose.Schema(
       type: Array,
       default: [],
     },
+    pushToken: {
+      type: String,
+      default: "",
+    },
     premium: {
       type: String,
       enum: ["Premium", "NotPremium", "Pending"],

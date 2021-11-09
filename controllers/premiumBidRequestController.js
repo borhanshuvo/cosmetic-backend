@@ -1,5 +1,6 @@
 // internal imports
 const PremiumBidRequest = require("../models/PremiumBidRequest");
+const User = require("../models/User");
 
 // get premium bid request data
 async function getPremiumBidRequest(req, res, next) {
@@ -35,10 +36,12 @@ async function getSinglePremiumBidRequest(req, res, next) {
 // add premium bid request data
 async function addPremiumBidRequest(req, res, next) {
   try {
+    const admin = await User.findOne({ role: "admin" });
     const premiumBidRequest = new PremiumBidRequest(req.body);
     const result = await premiumBidRequest.save();
     res.status(200).json({
       success: "Premium Bid was added successfully!",
+      adminPushToken: admin.pushToken,
     });
   } catch (err) {
     res.status(500).json({
@@ -54,7 +57,10 @@ async function updatePremiumBidRequest(req, res, next) {
     const result = await PremiumBidRequest.findByIdAndUpdate(id, req.body, {
       new: true,
     });
-    res.status(200).json(result);
+    const pushToken = await User.find({
+      pushToken: { $exists: true, $ne: null },
+    });
+    res.status(200).json({ result, pushToken });
   } catch (err) {
     res.status(500).json({
       error: "Internal server error!",

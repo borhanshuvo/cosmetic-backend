@@ -126,16 +126,19 @@ async function addUser(req, res, next) {
 
 // update user
 async function updateUser(req, res, next) {
-  const id = req.params.id;
-  const user = await User.find({ _id: id });
-  if (req.files && req.files.length > 0) {
-    req.body.avatar = `${req.files[0].filename}`;
-    req.body.imgURL = `/uploads/avatars/${req.files[0].filename}`;
-  }
-  // save user
   try {
+    const id = req.params.id;
+    if (req.files && req.files.length > 0) {
+      req.body.avatar = `${req.files[0].filename}`;
+      req.body.imgURL = `/uploads/avatars/${req.files[0].filename}`;
+    }
+
+    const pushToken = await User.find({
+      pushToken: { $exists: true, $ne: null },
+    });
+
     const result = await User.findByIdAndUpdate(id, req.body, { new: true });
-    res.status(200).json(result);
+    res.status(200).json({ result, pushToken });
   } catch (err) {
     res.status(500).json({
       error: "Internal Server Error!",
@@ -255,6 +258,50 @@ async function getUserNotification(req, res, next) {
   }
 }
 
+// get data not seen notification
+async function unseenNotification(req, res, next) {
+  try {
+    const email = req.body.email;
+    const user = await User.findOne({ email });
+    const unseen = user.notification.filter((nt) => nt.backColor === "#E1E9E9");
+    res.status(200).json(unseen.length);
+  } catch (err) {
+    res.status(500).json({
+      error: "Internal Server Error!",
+    });
+  }
+}
+
+// update user notification
+async function updateUserNotification(req, res, next) {
+  try {
+    const id = `${new mongoose.Types.ObjectId(req.params.id)}`;
+    const email = req.body.email;
+    const user = await User.findOne({ email: email });
+    const update = user.notification.map((nt) => {
+      if (`${nt._id}` === id) {
+        let { backColor, ...others } = nt;
+        backColor = "#ffffff";
+        const newData = { ...others, backColor };
+        return newData;
+      }
+      if (`${nt._id}` !== id) {
+        return nt;
+      }
+    });
+    const result = await User.findByIdAndUpdate(
+      { _id: user._id },
+      { $set: { notification: update } },
+      { useFindAndModify: false }
+    );
+    res.status(200).json(result);
+  } catch (err) {
+    res.status(500).json({
+      error: "Internal Server Error!",
+    });
+  }
+}
+
 // remove notification
 async function deleteNotification(req, res, next) {
   try {
@@ -330,4 +377,6 @@ module.exports = {
   searchUser,
   getUserNotification,
   singleUser,
+  updateUserNotification,
+  unseenNotification,
 };

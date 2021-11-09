@@ -7,12 +7,20 @@ const ConversationSchema = mongoose.Schema(
       name: String,
       email: String,
       image: String,
+      backColor: {
+        type: String,
+        default: "#E1E9E9",
+      },
     },
     participant: {
       id: mongoose.Types.ObjectId,
       name: String,
       email: String,
       image: String,
+      backColor: {
+        type: String,
+        default: "#E1E9E9",
+      },
     },
   },
   { timestamps: true }

@@ -37,6 +37,10 @@ const productSchema = mongoose.Schema(
       type: String,
       required: true,
     },
+    backColor: {
+      type: String,
+      default: "#E1E9E9",
+    },
   },
   {
     timestamps: true,

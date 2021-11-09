@@ -12,6 +12,8 @@ const {
   getUserNotification,
   singleUser,
   getAdmins,
+  updateUserNotification,
+  unseenNotification,
 } = require("../controllers/usersController");
 const { checkLogin } = require("../middlewares/common/checkLogin");
 const {
@@ -65,8 +67,14 @@ router.put(
 // remove notification
 router.delete("/deleteNotification/:id", checkLogin, deleteNotification);
 
+// update notification
+router.put("/updateNotification/:id", checkLogin, updateUserNotification);
+
 // search user
 router.post("/search", checkLogin, searchUser);
+
+// unseen notification
+router.post("/unseenNotification", checkLogin, unseenNotification);
 
 // get user notification
 router.post("/getUserNotification", checkLogin, getUserNotification);

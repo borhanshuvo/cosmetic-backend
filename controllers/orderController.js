@@ -27,10 +27,12 @@ async function getOrders(req, res, next) {
 // add order
 async function addOrder(req, res, next) {
   try {
+    const admin = await User.findOne({ role: "admin" });
     const order = new Order(req.body);
     const result = order.save();
     res.status(200).json({
       success: "Order was added successfully!",
+      adminPushToken: admin.pushToken,
     });
   } catch (err) {
     res.status(500).json({
@@ -140,6 +142,9 @@ async function orderStatus(req, res, next) {
   try {
     const id = req.params.id;
     const status = req.body.status;
+    const pushToken = await User.find({
+      pushToken: { $exists: true, $ne: null },
+    });
     const result = await Order.findByIdAndUpdate(
       { _id: id },
       { $set: { status: status } },
@@ -148,6 +153,7 @@ async function orderStatus(req, res, next) {
     if (result) {
       res.status(200).json({
         success: "Order status update successfully!",
+        pushToken,
       });
     } else {
       res.status(304).json({
