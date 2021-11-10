@@ -365,6 +365,18 @@ async function searchUser(req, res, next) {
   }
 }
 
+// pending length
+async function pendingUserStatus(req, res, next) {
+  try {
+    const order = await User.find({ premium: "Pending" });
+    res.status(200).json(order.length);
+  } catch (err) {
+    res.status(500).json({
+      error: "Internal Server Error!",
+    });
+  }
+}
+
 module.exports = {
   getUsers,
   getAdmins,
@@ -379,4 +391,5 @@ module.exports = {
   singleUser,
   updateUserNotification,
   unseenNotification,
+  pendingUserStatus,
 };
