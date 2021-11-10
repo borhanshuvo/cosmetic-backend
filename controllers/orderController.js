@@ -276,6 +276,7 @@ async function getStatisticsValue(req, res, next) {
   }
 }
 
+// pending length
 async function pendingOrderStatus(req, res, next) {
   try {
     const order = await Order.find({ status: "Pending" });

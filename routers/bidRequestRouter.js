@@ -5,6 +5,7 @@ const {
   addBidRequest,
   updateBidRequest,
   getSingleBidRequest,
+  pendingOrderStatus,
 } = require("../controllers/bidRequestController");
 const { checkLogin } = require("../middlewares/common/checkLogin");
 
@@ -22,5 +23,8 @@ router.post("/post", checkLogin, addBidRequest);
 
 // update bid request
 router.put("/update/:id", checkLogin, updateBidRequest);
+
+// get bid request pending Order Status
+router.get("/pendingOrderStatus", checkLogin, pendingOrderStatus);
 
 module.exports = router;
