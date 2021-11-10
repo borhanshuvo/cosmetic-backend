@@ -45,6 +45,6 @@ router.get("/totalEarning", checkLogin, getTotalEarning);
 router.get("/statistics/:year", checkLogin, getStatisticsValue);
 
 // get yearly statistics value
-router.get("/pendingOrderStatus", pendingOrderStatus);
+router.get("/pendingOrderStatus", checkLogin, pendingOrderStatus);
 
 module.exports = router;
