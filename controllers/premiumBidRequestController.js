@@ -68,9 +68,22 @@ async function updatePremiumBidRequest(req, res, next) {
   }
 }
 
+// pending length
+async function pendingOrderStatus(req, res, next) {
+  try {
+    const order = await PremiumBidRequest.find({ status: "Pending" });
+    res.status(200).json(order.length);
+  } catch (err) {
+    res.status(500).json({
+      error: "Internal Server Error!",
+    });
+  }
+}
+
 module.exports = {
   getPremiumBidRequest,
   getSinglePremiumBidRequest,
   addPremiumBidRequest,
   updatePremiumBidRequest,
+  pendingOrderStatus,
 };

@@ -5,6 +5,7 @@ const {
   getSinglePremiumBidRequest,
   addPremiumBidRequest,
   updatePremiumBidRequest,
+  pendingOrderStatus,
 } = require("../controllers/premiumBidRequestController");
 const { checkLogin } = require("../middlewares/common/checkLogin");
 
@@ -22,5 +23,8 @@ router.post("/post", checkLogin, addPremiumBidRequest);
 
 // update premium bid request
 router.put("/update/:id", checkLogin, updatePremiumBidRequest);
+
+// get bid request pending Order Status
+router.get("/pendingOrderStatus", checkLogin, pendingOrderStatus);
 
 module.exports = router;
