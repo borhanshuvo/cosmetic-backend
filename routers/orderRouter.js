@@ -10,6 +10,7 @@ const {
   successPayment,
   cancelPayment,
   addPaymentInfo,
+  pendingOrderStatus,
 } = require("../controllers/orderController");
 const { checkLogin } = require("../middlewares/common/checkLogin");
 
@@ -42,5 +43,8 @@ router.get("/totalEarning", checkLogin, getTotalEarning);
 
 // get yearly statistics value
 router.get("/statistics/:year", checkLogin, getStatisticsValue);
+
+// get yearly statistics value
+router.get("/pendingOrderStatus", pendingOrderStatus);
 
 module.exports = router;

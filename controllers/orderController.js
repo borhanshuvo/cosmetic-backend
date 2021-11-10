@@ -276,6 +276,17 @@ async function getStatisticsValue(req, res, next) {
   }
 }
 
+async function pendingOrderStatus(req, res, next) {
+  try {
+    const order = await Order.find({ status: "Pending" });
+    res.status(200).json(order.length);
+  } catch (err) {
+    res.status(500).json({
+      error: "Internal Server Error!",
+    });
+  }
+}
+
 module.exports = {
   getOrders,
   addOrder,
@@ -286,4 +297,5 @@ module.exports = {
   addPaymentInfo,
   successPayment,
   cancelPayment,
+  pendingOrderStatus,
 };
