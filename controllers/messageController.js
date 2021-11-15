@@ -1,4 +1,5 @@
 const Message = require("../models/Message");
+const User = require("../models/User");
 
 async function sendMessage(req, res, next) {
   try {
@@ -24,9 +25,15 @@ async function sendMessage(req, res, next) {
       backColor: req.body.receiver_backColor,
     };
 
+    const user = await User.findOne({ email: req.body.receiver_email });
+
     const newMessage = new Message(message);
     await newMessage.save();
-    res.json({ success: true });
+    res.json({
+      success: true,
+      pushToken: user.pushToken,
+      messageText: req.body.text,
+    });
     global.io.emit("new_message", newMessage);
   } catch (err) {
     res.status(400).json({ success: false });
