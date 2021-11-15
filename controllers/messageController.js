@@ -2,31 +2,29 @@ const Message = require("../models/Message");
 
 async function sendMessage(req, res, next) {
   try {
-    // const message = {};
-    // if (req.files[0]) {
-    //   const avatar = req.files[0].filename;
-    //   message.avatar = avatar;
-    // }
+    const message = {};
+    if (req.files[0]) {
+      const avatar = `/uploads/msgImage/${req.files[0].filename}`;
+      message.avatar = avatar;
+    }
+    message.text = req.body.text;
+    message.conversation_id = req.body.conversation_id;
+    message.sender = {
+      id: req.body.sender_id,
+      name: req.body.sender_name,
+      email: req.body.sender_email,
+      image: req.body.sender_image,
+      backColor: req.body.sender_backColor,
+    };
+    message.receiver = {
+      id: req.body.receiver_id,
+      name: req.body.receiver_name,
+      email: req.body.receiver_email,
+      image: req.body.receiver_image,
+      backColor: req.body.receiver_backColor,
+    };
 
-    // if (req.body.text) {
-    //   message.text = req.body.text;
-    // }
-
-    // message.conversation_id = req.body.conversation_id;
-
-    // message.sender = {
-    //   name: req.body.sender_name,
-    //   image: req.body.sender_image,
-    //   id: req.body.sender_id,
-    // };
-
-    // message.receiver = {
-    //   name: req.body.receiver_name,
-    //   image: req.body.receiver_image,
-    //   id: req.body.receiver_id,
-    // };
-
-    const newMessage = new Message(req.body);
+    const newMessage = new Message(message);
     await newMessage.save();
     res.json({ success: true });
     global.io.emit("new_message", newMessage);
