@@ -9,6 +9,8 @@ const moment = require("moment");
 // internal imports
 const User = require("../models/User");
 const Order = require("../models/Order");
+const BidRequest = require("../models/BidRequest");
+const PremiumBidRequest = require("../models/PremiumBidRequest");
 const escape = require("../utilities/escape");
 const Conversation = require("../models/Conversation");
 
@@ -377,6 +379,33 @@ async function pendingUserStatus(req, res, next) {
   }
 }
 
+// user pending all notification
+async function getAllNotificationLength(req, res, next) {
+  try {
+    const email = req.params.email;
+    const user = await User.findOne({
+      $and: [{ email: email }, { premium: "Premium" }],
+    });
+
+    const bidRequest = await BidRequest.find({
+      $and: [{ email: email }, { backColor: "#E1E9E9" }],
+    });
+
+    const premiumBidRequest = await PremiumBidRequest.find({
+      $and: [{ email: email }, { backColor: "#E1E9E9" }],
+    });
+
+    res.status(200).json({
+      totalBid: bidRequest.length,
+      totalPremiumBid: premiumBidRequest.length,
+    });
+  } catch (err) {
+    res.status(500).json({
+      error: "Internal Server Error!",
+    });
+  }
+}
+
 module.exports = {
   getUsers,
   getAdmins,
@@ -392,4 +421,5 @@ module.exports = {
   updateUserNotification,
   unseenNotification,
   pendingUserStatus,
+  getAllNotificationLength,
 };

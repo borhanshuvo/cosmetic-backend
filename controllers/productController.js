@@ -69,7 +69,7 @@ async function addProduct(req, res, next) {
 
     users.map(async (user) => {
       const prevNotification = user.notification;
-      const notification = [result, ...prevNotification, ];
+      const notification = [result, ...prevNotification];
 
       await User.findByIdAndUpdate(
         { _id: user._id },
@@ -126,7 +126,9 @@ async function deleteProduct(req, res, next) {
     const product = await Product.findByIdAndDelete({
       _id: id,
     });
-    res.status(200).json(product);
+    res.status(200).json({
+      success: "Product was deleted successfully!",
+    });
   } catch (err) {
     res.status(500).json({
       error: "Internal Server Error!",

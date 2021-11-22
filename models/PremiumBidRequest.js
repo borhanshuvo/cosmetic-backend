@@ -28,6 +28,10 @@ const premiumBidRequestSchema = mongoose.Schema(
       type: String,
       required: true,
     },
+    backColor: {
+      type: String,
+      default: "#ffffff",
+    },
     status: {
       type: String,
       enum: ["Approved", "NotApproved", "Pending"],

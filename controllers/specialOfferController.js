@@ -1,6 +1,7 @@
 // internal imports
 const Product = require("../models/Product");
 const SpecialOffer = require("../models/SpecialOffer");
+const User = require("../models/User");
 const moment = require("moment");
 
 // get all special offer product
@@ -76,7 +77,7 @@ async function addOfferProduct(req, res, next) {
     endingDate.setFullYear(startYear);
     endingDate.setMonth(endMonth);
     endingDate.setDate(endDate);
-    endingDate.setHours(endDateHour)
+    endingDate.setHours(endDateHour);
     endingDate.setMinutes(endDateMinute);
     endingDate.setSeconds(endDateSecond);
 
@@ -91,11 +92,35 @@ async function addOfferProduct(req, res, next) {
     };
 
     const specialOffer = new SpecialOffer(offerProduct);
-    const result = specialOffer.save();
+    const result = await specialOffer.save();
+    const newProduct = result.product;
+    const collectionName = "specialoffers";
+    const offerId = result._id;
+    const updateProduct = { ...newProduct._doc, collectionName, offerId };
+
+    const pushToken = await User.find({
+      $and: [
+        { pushToken: { $exists: true, $ne: null } },
+        { premium: "Premium" },
+      ],
+    });
+
+    const users = await User.find({ premium: "Premium" });
+    users.map(async (user) => {
+      const prevNotification = user.notification;
+      const notification = [updateProduct, ...prevNotification];
+
+      await User.findByIdAndUpdate(
+        { _id: user._id },
+        { $set: { notification: notification } },
+        { useFindAndModify: false }
+      );
+    });
 
     if (result) {
       res.status(200).json({
         success: "Offer product added successfully!",
+        pushToken,
       });
     } else {
       res.status(400).json({
@@ -141,7 +166,9 @@ async function deleteOfferProduct(req, res, next) {
     const offerProduct = await SpecialOffer.findByIdAndDelete({
       _id: id,
     });
-    res.status(200).json(offerProduct);
+    res.status(200).json({
+      success: "Product was deleted successfully!",
+    });
   } catch (err) {
     res.status(500).json({
       error: "Internal Server Error!",

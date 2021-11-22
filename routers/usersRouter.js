@@ -15,6 +15,7 @@ const {
   updateUserNotification,
   unseenNotification,
   pendingUserStatus,
+  getAllNotificationLength,
 } = require("../controllers/usersController");
 const { checkLogin } = require("../middlewares/common/checkLogin");
 const {
@@ -82,5 +83,12 @@ router.post("/getUserNotification", checkLogin, getUserNotification);
 
 // get bid request pending user Status
 router.get("/pendingUserStatus", checkLogin, pendingUserStatus);
+
+// user pending all notification
+router.get(
+  "/getAllNotificationLength/:email",
+  checkLogin,
+  getAllNotificationLength
+);
 
 module.exports = router;
