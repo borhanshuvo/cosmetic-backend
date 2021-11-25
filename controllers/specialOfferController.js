@@ -11,8 +11,9 @@ async function getAllOfferProduct(req, res, next) {
     if (result) {
       const offerProduct = result.filter((res) => {
         const newDate = new Date().getTime();
+        const dbStartingDate = res?.startingDateMiliSecond;
         const dbEndingDate = res?.endingDateMiliSecond;
-        if (newDate <= dbEndingDate) {
+        if (newDate >= dbStartingDate && newDate <= dbEndingDate) {
           return res;
         }
       });
